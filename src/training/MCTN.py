@@ -52,8 +52,7 @@ def train(
     weight_decay=0.01,
     op_type=torch.optim.AdamW,
     epoch=100,
-    model_save="best_mctn.pt",
-    testdata=None,
+    model_save="best_mctn.pt"
 ):
     """Train a 2-level MCTN Instance
 
@@ -82,7 +81,6 @@ def train(
         op_type (torch.optim.Optimizer, optional): Optimizer instance. Defaults to torch.optim.AdamW.
         epoch (int, optional): Number of epochs. Defaults to 100.
         model_save (str, optional): Path to save best model. Defaults to 'best_mctn.pt'.
-        testdata (torch.utils.data.DataLoader, optional): Data Loader for test data. Defaults to None.
     """
     seq2seq0 = Seq2Seq(encoder0, decoder0).to(
         torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -164,7 +162,7 @@ def train(
         with torch.no_grad():
             for i, inputs in enumerate(validdata):
                 # process input
-                src, trg0, trg1, labels, feature_dim = _process_input_L2(
+                src, trg0, trg1, labels, _ = _process_input_L2(
                     inputs, max_seq_len
                 )
 
@@ -244,29 +242,13 @@ def single_test(model, testdata, max_seq_len=20):
 
 def test(
     model,
-    test_dataloaders_all,
-    dataset,
-    method_name="My method",
-    is_packed=False,
-    criterion=nn.CrossEntropyLoss(),
-    task="classification",
-    auprc=False,
-    input_to_float=True,
-    no_robust=True,
+    test_dataloaders_all
 ):
     """Test MCTN_Level2 Module on a set of test dataloaders.
 
     Args:
         model (nn.Module): MCTN2 Module
         test_dataloaders_all (list): List of dataloaders
-        dataset (Dataset): Dataset Name
-        method_name (str, optional): Name of method. Defaults to 'My method'.
-        is_packed (bool, optional): (unused). Defaults to False.
-        criterion (_type_, optional): (unused). Defaults to nn.CrossEntropyLoss().
-        task (str, optional): (unused). Defaults to "classification".
-        auprc (bool, optional): (unused). Defaults to False.
-        input_to_float (bool, optional): (unused). Defaults to True.
-        no_robust (bool, optional): Whether to not apply robustness transformations or not. Defaults to True.
     """
 
     def _testprocess():
