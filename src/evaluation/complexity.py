@@ -3,7 +3,7 @@ import time
 from utils import format_time
 
 
-def getallparams(li):
+def get_all_params(li):
     params = 0
     for module in li:
         for param in module.parameters():
@@ -17,7 +17,7 @@ def all_in_one(trainprocess, trainmodules):
     endtime = time.time()
 
     print("Training Time: " + format_time(endtime - starttime))
-    print("Training Params: " + str(getallparams(trainmodules)))
+    print("Training Params: " + str(get_all_params(trainmodules)))
     return train_losses, valid_losses
 
 
@@ -28,7 +28,7 @@ def all_in_one_train(trainprocess, trainmodules):
 
     print("Training Time: " + format_time(endtime - starttime))
     print("Training Peak Mem: " + str(mem))
-    print("Training Params: " + str(getallparams(trainmodules)))
+    print("Training Params: " + str(get_all_params(trainmodules)))
 
 
 def all_in_one_test(testprocess, testmodules):
@@ -36,4 +36,4 @@ def all_in_one_test(testprocess, testmodules):
     testprocess()
     testend = time.time()
     print("Inference Time: " + format_time(testend - teststart))
-    print("Inference Params: " + str(getallparams(testmodules)))
+    print("Inference Params: " + str(get_all_params(testmodules)))

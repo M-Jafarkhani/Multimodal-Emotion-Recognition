@@ -46,8 +46,6 @@ class MULTModel(nn.Module):
         self.all_steps = hyp_params.all_steps
 
         combined_dim = self.embed_dim * n_modalities * n_modalities
-
-        # This is actually not a hyperparameter :-)
         output_dim = hyp_params.output_dim
 
         # 1. Temporal convolutional layers
@@ -129,8 +127,7 @@ class MULTModel(nn.Module):
                 h.append(self.trans[i][j](proj_x[i], proj_x[j], proj_x[j]))
             h = torch.cat(h, dim=2)
             h = self.trans_mems[i](h)
-            # if type(h) == tuple:
-            #     h = h[0]
+
             if self.all_steps:
                 hs.append(h)
             else:
@@ -500,7 +497,6 @@ class SinusoidalPositionalEmbedding(nn.Module):
         self.embedding_dim = embedding_dim
         self.padding_idx = padding_idx
         self.left_pad = left_pad
-        # device --> actual weight; due to nn.DataParallel :-(
         self.weights = dict()
         self.register_buffer("_float_tensor", torch.FloatTensor(1))
 
@@ -542,7 +538,6 @@ class SinusoidalPositionalEmbedding(nn.Module):
         max_pos = self.padding_idx + 1 + seq_len
         device = input.get_device()
         if device not in self.weights or max_pos > self.weights[device].size(0):
-            # recompute/expand embeddings if needed
             self.weights[device] = SinusoidalPositionalEmbedding.get_embedding(
                 max_pos,
                 self.embedding_dim,
