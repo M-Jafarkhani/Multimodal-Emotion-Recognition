@@ -451,21 +451,17 @@ def single_test(
 def test(
     model,
     test_dataloaders_all,
-    dataset="default",
-    method_name="My method",
     is_packed=False,
     criterion=nn.CrossEntropyLoss(),
     task="classification",
     auprc=False,
-    input_to_float=True,
-    no_robust=False,
+    input_to_float=True
 ):
     """
     Handle getting test results for a simple supervised training loop.
 
     :param model: saved checkpoint filename from train
     :param test_dataloaders_all: test data
-    :param dataset: the name of dataset, need to be set for testing effective robustness
     :param criterion: only needed for regression, put MSELoss there
     """
 

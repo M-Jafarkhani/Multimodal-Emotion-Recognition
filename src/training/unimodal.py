@@ -319,13 +319,10 @@ def test(
     encoder,
     head,
     test_dataloaders_all,
-    dataset="default",
-    method_name="My method",
     auprc=False,
     modalnum=0,
     task="classification",
-    criterion=None,
-    no_robust=False,
+    criterion=None
 ):
     """Test unimodal model on all provided dataloaders.
 
@@ -333,13 +330,10 @@ def test(
         encoder (nn.Module): Encoder module
         head (nn.Module): Module which takes in encoded unimodal input and predicts output.
         test_dataloaders_all (dict): Dictionary of noisetype, dataloader to test.
-        dataset (str, optional): Dataset to test on. Defaults to 'default'.
-        method_name (str, optional): Method name. Defaults to 'My method'.
         auprc (bool, optional): Whether to output AUPRC scores or not. Defaults to False.
         modalnum (int, optional): Index of modality to test on. Defaults to 0.
         task (str, optional): Type of task to try. Supports "classification", "regression", or "multilabel". Defaults to 'classification'.
         criterion (nn.Module, optional): Loss module. Defaults to None.
-        no_robust (bool, optional): Whether to not apply robustness methods or not. Defaults to False.
     """
     all_in_one_test(
         single_test(
