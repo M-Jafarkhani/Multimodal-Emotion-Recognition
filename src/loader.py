@@ -1,18 +1,19 @@
 """Implements dataloaders for AFFECT data."""
 
-import os
-import sys
 from typing import *
 import pickle
 import numpy as np
 from torch.nn import functional as F
-
-sys.path.append(os.getcwd())
 import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, Dataset
 
 np.seterr(divide="ignore", invalid="ignore")
+
+
+def load_pickle(path):
+    with open(path, "rb") as f:
+        return pickle.load(f)
 
 
 def drop_entry(dataset):
@@ -54,8 +55,34 @@ def z_norm(dataset, max_seq_len=50):
     return processed
 
 
+class MeldDataset(Dataset):
+    def __init__(self, data_path: str):
+        self.data = load_pickle(data_path)
+        self.visual_size = self.data[0]["video_features"].shape[1]
+        self.acoustic_size = self.data[0]["audio_features"].shape[1]
+        self.len = len(self.data)
+
+    @property
+    def lav_dim(self):
+        return (
+            300,
+            self.data[0]["audio_features"].shape[1],
+            self.data[0]["video_features"].shape[1],
+        )
+
+    @property
+    def lav_len(self):
+        return 0, 0, 0
+
+    def __getitem__(self, index):
+        return self.data[index]
+
+    def __len__(self):
+        return self.len
+
+
 class SentimentDataset(Dataset):
-    """Implements Affect data as a torch dataset."""
+    """Implements Sentiment Dataset as a torch dataset."""
 
     def __init__(
         self,
@@ -68,7 +95,7 @@ class SentimentDataset(Dataset):
         data_type="mosi",
         z_norm=False,
     ) -> None:
-        """Instantiate AffectDataset
+        """Instantiate SentimentDataset
 
         Args:
             data (Dict): Data dictionary
@@ -126,10 +153,7 @@ class SentimentDataset(Dataset):
             )
 
         def _get_class(flag):
-            if flag > 0:
-                return [[1]]
-            else:
-                return [[0]]
+            return [[1]] if flag > 0 else [[0]]
 
         tmp_label = self.dataset["labels"][ind]
 
@@ -193,68 +217,127 @@ def get_dataloader(
     Returns:
         DataLoader: tuple of train dataloader, validation dataloader, test dataloader
     """
-    with open(filepath, "rb") as f:
-        alldata = pickle.load(f)
+    if data_type in ["mosi", "mosei"]:
+        with open(filepath, "rb") as f:
+            alldata = pickle.load(f)
 
-    processed_dataset = {"train": {}, "test": {}, "valid": {}}
-    alldata["train"] = drop_entry(alldata["train"])
-    alldata["valid"] = drop_entry(alldata["valid"])
-    alldata["test"] = drop_entry(alldata["test"])
+        processed_dataset = {"train": {}, "test": {}, "valid": {}}
+        alldata["train"] = drop_entry(alldata["train"])
+        alldata["valid"] = drop_entry(alldata["valid"])
+        alldata["test"] = drop_entry(alldata["test"])
 
-    process = eval("_process_2") if max_pad else eval("_process_1")
+        process = eval("_process_2") if max_pad else eval("_process_1")
 
-    for dataset in alldata:
-        processed_dataset[dataset] = alldata[dataset]
+        for dataset in alldata:
+            processed_dataset[dataset] = alldata[dataset]
 
-    train = DataLoader(
-        SentimentDataset(
-            processed_dataset["train"],
-            flatten_time_series,
-            task=task,
-            max_pad=max_pad,
-            max_pad_num=max_seq_len,
-            data_type=data_type,
-            z_norm=z_norm,
-        ),
-        shuffle=train_shuffle,
-        num_workers=num_workers,
-        batch_size=batch_size,
-        collate_fn=process,
-    )
+        train = DataLoader(
+            SentimentDataset(
+                processed_dataset["train"],
+                flatten_time_series,
+                task=task,
+                max_pad=max_pad,
+                max_pad_num=max_seq_len,
+                data_type=data_type,
+                z_norm=z_norm,
+            ),
+            shuffle=train_shuffle,
+            num_workers=num_workers,
+            batch_size=batch_size,
+            collate_fn=process,
+        )
 
-    valid = DataLoader(
-        SentimentDataset(
-            processed_dataset["valid"],
-            flatten_time_series,
-            task=task,
-            max_pad=max_pad,
-            max_pad_num=max_seq_len,
-            data_type=data_type,
-            z_norm=z_norm,
-        ),
-        shuffle=False,
-        num_workers=num_workers,
-        batch_size=batch_size,
-        collate_fn=process,
-    )
+        valid = DataLoader(
+            SentimentDataset(
+                processed_dataset["valid"],
+                flatten_time_series,
+                task=task,
+                max_pad=max_pad,
+                max_pad_num=max_seq_len,
+                data_type=data_type,
+                z_norm=z_norm,
+            ),
+            shuffle=False,
+            num_workers=num_workers,
+            batch_size=batch_size,
+            collate_fn=process,
+        )
 
-    test = DataLoader(
-        SentimentDataset(
-            processed_dataset["test"],
-            flatten_time_series,
-            task=task,
-            max_pad=max_pad,
-            max_pad_num=max_seq_len,
-            data_type=data_type,
-            z_norm=z_norm,
-        ),
-        shuffle=False,
-        num_workers=num_workers,
-        batch_size=batch_size,
-        collate_fn=process,
-    )
+        test = DataLoader(
+            SentimentDataset(
+                processed_dataset["test"],
+                flatten_time_series,
+                task=task,
+                max_pad=max_pad,
+                max_pad_num=max_seq_len,
+                data_type=data_type,
+                z_norm=z_norm,
+            ),
+            shuffle=False,
+            num_workers=num_workers,
+            batch_size=batch_size,
+            collate_fn=process,
+        )
 
-    return train, valid, test
+        return train, valid, test
+    elif data_type == "meld":
+        dataset = MeldDataset(filepath)
+
+        def collate_fn(batch):
+            batch = sorted(batch, key=lambda x: len(x["token_ids"]))
+
+            labels = [sample["label"] for sample in batch]
+            labels = torch.LongTensor(labels)
+            text = pad_sequence(
+                [torch.LongTensor(sample["token_ids"]) for sample in batch],
+                batch_first=True,
+            )
+            visual = pad_sequence(
+                [
+                    torch.FloatTensor(sample["video_features"])
+                    for sample in batch
+                ],
+                batch_first=True,
+            )
+            acoustic = pad_sequence(
+                [
+                    torch.FloatTensor(sample["audio_features"])
+                    for sample in batch
+                ],
+                batch_first=True,
+            )
+
+            lengths = torch.LongTensor(
+                [len(sample["token_ids"]) for sample in batch]
+            )
+            text = F.pad(text, (1, 0, 0, 0))
+            visual = F.pad(visual, (0, 0, 1, 0, 0, 0))
+            acoustic = F.pad(acoustic, (0, 0, 1, 0, 0, 0))
+            lengths = lengths + 1
+            SENT_LEN = text.size(1)
+
+            bert_sent_mask = (
+                torch.arange(SENT_LEN).unsqueeze(0).expand_as(text)
+                < lengths.unsqueeze(-1).cuda()
+            )
+            s, v, a, y, l = (
+                text.cuda(),
+                visual.cuda(),
+                acoustic.cuda(),
+                labels.cuda(),
+                lengths.cuda(),
+            )
+            bert_sent_mask = bert_sent_mask.cuda()
+            return s, v, a, y, l, None, None, bert_sent_mask
+
+        data_loader = DataLoader(
+            dataset=dataset,
+            batch_size=batch_size,
+            shuffle=True,
+            collate_fn=collate_fn,
+        )
+
+        return data_loader
 
 
 def _process_1(inputs: List):
