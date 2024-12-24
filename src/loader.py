@@ -283,8 +283,9 @@ def get_dataloader(
         return train, valid, test
     elif data_type == "meld":
         dataset = MeldDataset(filepath)
-
+        
         def collate_fn(batch):
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             batch = sorted(batch, key=lambda x: len(x["token_ids"]))
 
             labels = [sample["label"] for sample in batch]
@@ -318,17 +319,18 @@ def get_dataloader(
             SENT_LEN = text.size(1)
 
             bert_sent_mask = (
-                torch.arange(SENT_LEN).unsqueeze(0).expand_as(text)
-                < lengths.unsqueeze(-1).cuda()
+                torch.arange(SENT_LEN, device=device).unsqueeze(0).expand_as(text) 
+                < lengths.unsqueeze(-1).to(device) 
             )
+            
             s, v, a, y, l = (
-                text.cuda(),
-                visual.cuda(),
-                acoustic.cuda(),
-                labels.cuda(),
-                lengths.cuda(),
+                text.to(device), 
+                visual.to(device),
+                acoustic.to(device),
+                labels.to(device),
+                lengths.to(device),
             )
-            bert_sent_mask = bert_sent_mask.cuda()
+            bert_sent_mask = bert_sent_mask.to(device)
             return s, v, a, y, l, None, None, bert_sent_mask
 
         data_loader = DataLoader(
