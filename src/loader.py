@@ -57,7 +57,8 @@ def z_norm(dataset, max_seq_len=50):
 
 class MeldDataset(Dataset):
     def __init__(self, data_path: str):
-        self.data = load_pickle(data_path)
+        raw_data = load_pickle(data_path)
+        self.data = [{'Id': key, **value} for key, value in raw_data.items()]
         self.visual_size = self.data[0]["video_features"].shape[1]
         self.acoustic_size = self.data[0]["audio_features"].shape[1]
         self.len = len(self.data)
