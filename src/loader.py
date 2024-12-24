@@ -125,24 +125,13 @@ class SentimentDataset(Dataset):
                 / (torch.std(text, axis=0, keepdims=True))
             )
 
-        def _get_class(flag, data_type=self.data_type):
-            if data_type in ["mosi", "mosei", "sarcasm"]:
-                if flag > 0:
-                    return [[1]]
-                else:
-                    return [[0]]
+        def _get_class(flag):
+            if flag > 0:
+                return [[1]]
             else:
-                return [flag]
+                return [[0]]
 
         tmp_label = self.dataset["labels"][ind]
-        if self.data_type == "humor" or self.data_type == "sarcasm":
-            if (self.task == None) or (self.task == "regression"):
-                if self.dataset["labels"][ind] < 1:
-                    tmp_label = [[-1]]
-                else:
-                    tmp_label = [[1]]
-        else:
-            tmp_label = self.dataset["labels"][ind]
 
         label = (
             torch.tensor(_get_class(tmp_label)).long()
