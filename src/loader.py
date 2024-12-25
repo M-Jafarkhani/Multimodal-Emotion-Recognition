@@ -1,5 +1,3 @@
-"""Implements dataloaders for AFFECT data."""
-
 from typing import *
 import pickle
 import numpy as np
@@ -331,7 +329,7 @@ def get_dataloader(
                 lengths.to(device),
             )
             bert_sent_mask = bert_sent_mask.to(device)
-            return s, v, a, y, l, None, None, bert_sent_mask
+            return s, v, a, y, l, bert_sent_mask
 
         data_loader = DataLoader(
             dataset=dataset,
@@ -360,7 +358,6 @@ def _process_1(inputs: List):
         processed_input.append(pad_seq)
 
     for sample in inputs:
-
         inds.append(sample[-2])
         if sample[-1].shape[1] > 1:
             labels.append(
