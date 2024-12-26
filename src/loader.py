@@ -53,33 +53,6 @@ def z_norm(dataset, max_seq_len=50):
     return processed
 
 
-class MeldDataset(Dataset):
-    def __init__(self, data_path: str):
-        raw_data = load_pickle(data_path)
-        self.data = [{'Id': key, **value} for key, value in raw_data.items()]
-        self.visual_size = self.data[0]["video_features"].shape[1]
-        self.acoustic_size = self.data[0]["audio_features"].shape[1]
-        self.len = len(self.data)
-
-    @property
-    def lav_dim(self):
-        return (
-            300,
-            self.data[0]["audio_features"].shape[1],
-            self.data[0]["video_features"].shape[1],
-        )
-
-    @property
-    def lav_len(self):
-        return 0, 0, 0
-
-    def __getitem__(self, index):
-        return self.data[index]
-
-    def __len__(self):
-        return self.len
-
-
 class SentimentDataset(Dataset):
     """Implements Sentiment Dataset as a torch dataset."""
 
@@ -216,161 +189,64 @@ def get_dataloader(
     Returns:
         DataLoader: tuple of train dataloader, validation dataloader, test dataloader
     """
-    if data_type in ["mosi", "mosei"]:
-        with open(filepath, "rb") as f:
-            alldata = pickle.load(f)
 
-        processed_dataset = {"train": {}, "test": {}, "valid": {}}
-        alldata["train"] = drop_entry(alldata["train"])
-        alldata["valid"] = drop_entry(alldata["valid"])
-        alldata["test"] = drop_entry(alldata["test"])
+    with open(filepath, "rb") as f:
+        alldata = pickle.load(f)
+    processed_dataset = {"train": {}, "test": {}, "valid": {}}
+    alldata["train"] = drop_entry(alldata["train"])
+    alldata["valid"] = drop_entry(alldata["valid"])
+    alldata["test"] = drop_entry(alldata["test"])
+    process = eval("_process_2") if max_pad else eval("_process_1")
+    for dataset in alldata:
+        processed_dataset[dataset] = alldata[dataset]
+    train = DataLoader(
+        SentimentDataset(
+            processed_dataset["train"],
+            flatten_time_series,
+            task=task,
+            max_pad=max_pad,
+            max_pad_num=max_seq_len,
+            data_type=data_type,
+            z_norm=z_norm,
+        ),
+        shuffle=train_shuffle,
+        num_workers=num_workers,
+        batch_size=batch_size,
+        collate_fn=process,
+    )
+    valid = DataLoader(
+        SentimentDataset(
+            processed_dataset["valid"],
+            flatten_time_series,
+            task=task,
+            max_pad=max_pad,
+            max_pad_num=max_seq_len,
+            data_type=data_type,
+            z_norm=z_norm,
+        ),
+        shuffle=False,
+        num_workers=num_workers,
+        batch_size=batch_size,
+        collate_fn=process,
+    )
 
-        process = eval("_process_2") if max_pad else eval("_process_1")
+    test = DataLoader(
+        SentimentDataset(
+            processed_dataset["test"],
+            flatten_time_series,
+            task=task,
+            max_pad=max_pad,
+            max_pad_num=max_seq_len,
+            data_type=data_type,
+            z_norm=z_norm,
+        ),
+        shuffle=False,
+        num_workers=num_workers,
+        batch_size=batch_size,
+        collate_fn=process,
+    )
 
-        for dataset in alldata:
-            processed_dataset[dataset] = alldata[dataset]
-
-        train = DataLoader(
-            SentimentDataset(
-                processed_dataset["train"],
-                flatten_time_series,
-                task=task,
-                max_pad=max_pad,
-                max_pad_num=max_seq_len,
-                data_type=data_type,
-                z_norm=z_norm,
-            ),
-            shuffle=train_shuffle,
-            num_workers=num_workers,
-            batch_size=batch_size,
-            collate_fn=process,
-        )
-
-        valid = DataLoader(
-            SentimentDataset(
-                processed_dataset["valid"],
-                flatten_time_series,
-                task=task,
-                max_pad=max_pad,
-                max_pad_num=max_seq_len,
-                data_type=data_type,
-                z_norm=z_norm,
-            ),
-            shuffle=False,
-            num_workers=num_workers,
-            batch_size=batch_size,
-            collate_fn=process,
-        )
-
-        test = DataLoader(
-            SentimentDataset(
-                processed_dataset["test"],
-                flatten_time_series,
-                task=task,
-                max_pad=max_pad,
-                max_pad_num=max_seq_len,
-                data_type=data_type,
-                z_norm=z_norm,
-            ),
-            shuffle=False,
-            num_workers=num_workers,
-            batch_size=batch_size,
-            collate_fn=process,
-        )
-
-        return train, valid, test
-    elif data_type == "meld":
-        filepath_train = filepath + "/meld_train.pkl"
-        filepath_valid = filepath + "/meld_dev.pkl"
-        filepath_test = filepath + "/meld_test.pkl"
-        
-        with open(filepath_train, "rb") as f:
-            train_data = pickle.load(f)
-        with open(filepath_valid, "rb") as f:
-            dev_data = pickle.load(f)
-        with open(filepath_test, "rb") as f:
-            test_data = pickle.load(f)  
-          
-        train_data_processed = {
-            'vision': [v['video_features'] for v in train_data.values()],
-            'labels': [v['label'] for v in train_data.values()],
-            'text': [v['token_ids'] for v in train_data.values()],
-            'audio': [v['audio_features'] for v in train_data.values()],
-            'id': train_data.keys()
-        }   
-        dev_data_processed = {
-            'vision': [v['video_features'] for v in dev_data.values()],
-            'labels': [v['label'] for v in dev_data.values()],
-            'text': [v['token_ids'] for v in dev_data.values()],
-            'audio': [v['audio_features'] for v in dev_data.values()],
-            'id': dev_data.keys()
-        }
-        test_data_processed = {
-            'vision': [v['video_features'] for v in test_data.values()],
-            'labels': [v['label'] for v in test_data.values()],
-            'text': [v['token_ids'] for v in test_data.values()],
-            'audio': [v['audio_features'] for v in test_data.values()],
-            'id': test_data.keys()
-        }
-        processed_dataset = {"train": {}, "test": {}, "valid": {}}
-        train_data = drop_entry(train_data_processed)
-        dev_data = drop_entry(dev_data_processed)
-        test_data = drop_entry(test_data_processed)
-
-        process = eval("_process_2") if max_pad else eval("_process_1")
-
-        for dataset in alldata:
-            processed_dataset[dataset] = alldata[dataset]
-
-        train = DataLoader(
-            SentimentDataset(
-                processed_dataset["train"],
-                flatten_time_series,
-                task=task,
-                max_pad=max_pad,
-                max_pad_num=max_seq_len,
-                data_type=data_type,
-                z_norm=z_norm,
-            ),
-            shuffle=train_shuffle,
-            num_workers=num_workers,
-            batch_size=batch_size,
-            collate_fn=process,
-        )
-
-        valid = DataLoader(
-            SentimentDataset(
-                processed_dataset["valid"],
-                flatten_time_series,
-                task=task,
-                max_pad=max_pad,
-                max_pad_num=max_seq_len,
-                data_type=data_type,
-                z_norm=z_norm,
-            ),
-            shuffle=False,
-            num_workers=num_workers,
-            batch_size=batch_size,
-            collate_fn=process,
-        )
-
-        test = DataLoader(
-            SentimentDataset(
-                processed_dataset["test"],
-                flatten_time_series,
-                task=task,
-                max_pad=max_pad,
-                max_pad_num=max_seq_len,
-                data_type=data_type,
-                z_norm=z_norm,
-            ),
-            shuffle=False,
-            num_workers=num_workers,
-            batch_size=batch_size,
-            collate_fn=process,
-        )
-
-        return train, valid, test
+    return train, valid, test
 
 
 def _process_1(inputs: List):
