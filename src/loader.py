@@ -280,65 +280,97 @@ def get_dataloader(
 
         return train, valid, test
     elif data_type == "meld":
-        dataset = MeldDataset(filepath)
+        filepath_train = filepath + "/meld_train.pkl"
+        filepath_valid = filepath + "/meld_dev.pkl"
+        filepath_test = filepath + "/meld_test.pkl"
         
-        def collate_fn(batch):
-            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            batch = sorted(batch, key=lambda x: len(x["token_ids"]))
+        with open(filepath_train, "rb") as f:
+            train_data = pickle.load(f)
+        with open(filepath_valid, "rb") as f:
+            dev_data = pickle.load(f)
+        with open(filepath_test, "rb") as f:
+            test_data = pickle.load(f)  
+          
+        train_data_processed = {
+            'vision': [v['video_features'] for v in train_data.values()],
+            'labels': [v['label'] for v in train_data.values()],
+            'text': [v['token_ids'] for v in train_data.values()],
+            'audio': [v['audio_features'] for v in train_data.values()],
+            'id': train_data.keys()
+        }   
+        dev_data_processed = {
+            'vision': [v['video_features'] for v in dev_data.values()],
+            'labels': [v['label'] for v in dev_data.values()],
+            'text': [v['token_ids'] for v in dev_data.values()],
+            'audio': [v['audio_features'] for v in dev_data.values()],
+            'id': dev_data.keys()
+        }
+        test_data_processed = {
+            'vision': [v['video_features'] for v in test_data.values()],
+            'labels': [v['label'] for v in test_data.values()],
+            'text': [v['token_ids'] for v in test_data.values()],
+            'audio': [v['audio_features'] for v in test_data.values()],
+            'id': test_data.keys()
+        }
+        processed_dataset = {"train": {}, "test": {}, "valid": {}}
+        train_data = drop_entry(train_data_processed)
+        dev_data = drop_entry(dev_data_processed)
+        test_data = drop_entry(test_data_processed)
 
-            labels = [sample["label"] for sample in batch]
-            labels = torch.LongTensor(labels)
-            text = pad_sequence(
-                [torch.LongTensor(sample["token_ids"]) for sample in batch],
-                batch_first=True,
-            )
-            visual = pad_sequence(
-                [
-                    torch.FloatTensor(sample["video_features"])
-                    for sample in batch
-                ],
-                batch_first=True,
-            )
-            acoustic = pad_sequence(
-                [
-                    torch.FloatTensor(sample["audio_features"])
-                    for sample in batch
-                ],
-                batch_first=True,
-            )
+        process = eval("_process_2") if max_pad else eval("_process_1")
 
-            lengths = torch.LongTensor(
-                [len(sample["token_ids"]) for sample in batch]
-            )
-            text = F.pad(text, (1, 0, 0, 0))
-            visual = F.pad(visual, (0, 0, 1, 0, 0, 0))
-            acoustic = F.pad(acoustic, (0, 0, 1, 0, 0, 0))
-            lengths = lengths + 1
-            SENT_LEN = text.size(1)
+        for dataset in alldata:
+            processed_dataset[dataset] = alldata[dataset]
 
-            bert_sent_mask = (
-                torch.arange(SENT_LEN, device=device).unsqueeze(0).expand_as(text) 
-                < lengths.unsqueeze(-1).to(device) 
-            )
-            
-            s, v, a, y, l = (
-                text.to(device), 
-                visual.to(device),
-                acoustic.to(device),
-                labels.to(device),
-                lengths.to(device),
-            )
-            bert_sent_mask = bert_sent_mask.to(device)
-            return s, v, a, y, l, bert_sent_mask
-
-        data_loader = DataLoader(
-            dataset=dataset,
+        train = DataLoader(
+            SentimentDataset(
+                processed_dataset["train"],
+                flatten_time_series,
+                task=task,
+                max_pad=max_pad,
+                max_pad_num=max_seq_len,
+                data_type=data_type,
+                z_norm=z_norm,
+            ),
+            shuffle=train_shuffle,
+            num_workers=num_workers,
             batch_size=batch_size,
-            shuffle=True,
-            collate_fn=collate_fn,
+            collate_fn=process,
         )
 
-        return data_loader
+        valid = DataLoader(
+            SentimentDataset(
+                processed_dataset["valid"],
+                flatten_time_series,
+                task=task,
+                max_pad=max_pad,
+                max_pad_num=max_seq_len,
+                data_type=data_type,
+                z_norm=z_norm,
+            ),
+            shuffle=False,
+            num_workers=num_workers,
+            batch_size=batch_size,
+            collate_fn=process,
+        )
+
+        test = DataLoader(
+            SentimentDataset(
+                processed_dataset["test"],
+                flatten_time_series,
+                task=task,
+                max_pad=max_pad,
+                max_pad_num=max_seq_len,
+                data_type=data_type,
+                z_norm=z_norm,
+            ),
+            shuffle=False,
+            num_workers=num_workers,
+            batch_size=batch_size,
+            collate_fn=process,
+        )
+
+        return train, valid, test
 
 
 def _process_1(inputs: List):

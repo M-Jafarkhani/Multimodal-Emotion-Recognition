@@ -1155,3 +1155,23 @@ class Sequential2(nn.Module):
             torch.Tensor: Layer Output
         """
         return self.model(x)
+
+class BaselineTextModel(nn.Module):
+    def __init__(self, vocab_sz=3000, n_hidden=100):
+        super(BaselineTextModel, self).__init__()
+        self.embedding = nn.Embedding(vocab_sz, n_hidden)
+        self.rnn = nn.LSTM(n_hidden, n_hidden)
+        self.dropout = nn.Dropout(0.2)
+        self.linear = nn.Linear(n_hidden*2, 3)
+
+    def forward(self, x):
+        x = self.embedding(x)
+        x, _ = self.rnn(x)
+        x = self.dropout(x)
+
+        avg_pool = torch.mean(x, dim=1)
+        max_pool, _ = torch.max(x, 1)
+
+        out = torch.cat((avg_pool, max_pool), dim=1)
+        out = self.linear(out)
+        return torch.squeeze(out, dim=1)
