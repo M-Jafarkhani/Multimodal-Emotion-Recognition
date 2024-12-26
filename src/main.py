@@ -221,7 +221,10 @@ if __name__ == "__main__":
     logger.info("Loading data...")
 
     (train_set, dev_set, test_set), vocab = dataset.load_data(
-        args.input_max_length
+        args.input_max_length,
+        args.train_data_path,
+        args.valid_data_path,
+        args.test_data_path
     )
     if args.evaluate:
         dev_loader = DataLoader(
