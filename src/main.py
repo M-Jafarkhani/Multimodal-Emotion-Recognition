@@ -283,7 +283,6 @@ if __name__ == "__main__":
                     epoch, dev_loss, dev_f1
                 )
             )
-            logger.info("---------------------------------")
             if best_f1 < dev_f1:
                 best_f1 = dev_f1
                 trainer.save(args.model_save_path)

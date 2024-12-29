@@ -322,7 +322,7 @@ def test(
     auprc=False,
     modalnum=0,
     task="classification",
-    criterion=None
+    criterion=None,
 ):
     """Test unimodal model on all provided dataloaders.
 
@@ -335,7 +335,8 @@ def test(
         task (str, optional): Type of task to try. Supports "classification", "regression", or "multilabel". Defaults to 'classification'.
         criterion (nn.Module, optional): Loss module. Defaults to None.
     """
-    all_in_one_test(
+
+    def _testprocess():
         single_test(
             encoder,
             head,
@@ -344,6 +345,6 @@ def test(
             modalnum,
             task,
             criterion,
-        ),
-        [encoder, head],
-    )
+        )
+
+    all_in_one_test(_testprocess, [encoder, head])
