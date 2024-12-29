@@ -6,12 +6,12 @@ import torch
 import torch.autograd
 import torch.nn as nn
 import torch.optim as optim
+import random
+import numpy as np
 from hiTrans.HiTrans import HiTrans
 from hiTrans.Loss import MultiTaskLoss
 from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader
-import random
-import numpy as np
 
 
 class Trainer(object):

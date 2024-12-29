@@ -1,8 +1,8 @@
-from typing import *
 import pickle
+import torch
 import numpy as np
 from torch.nn import functional as F
-import torch
+from typing import *
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, Dataset
 

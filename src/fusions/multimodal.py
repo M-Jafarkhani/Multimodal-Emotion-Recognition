@@ -111,12 +111,10 @@ class MULTModel(nn.Module):
         """
         x = [
             v.permute(0, 2, 1) for v in x
-        ]  # n_modalities * [batch_size, n_features, seq_len]
+        ] 
 
-        # Project the textual/visual/audio features
         proj_x = [self.proj[i](x[i]) for i in range(self.n_modalities)]
         proj_x = torch.stack(proj_x)
-        # [n_modalities, seq_len, batch_size, proj]
         proj_x = proj_x.permute(0, 3, 1, 2)
 
         hs = []
@@ -134,12 +132,11 @@ class MULTModel(nn.Module):
                 last_hs.append(h[-1])
 
         if self.all_steps:
-            out = torch.cat(hs, dim=2)  # [seq_len, batch_size, out_features]
-            out = out.permute(1, 0, 2)  # [batch_size, seq_len, out_features]
+            out = torch.cat(hs, dim=2) 
+            out = out.permute(1, 0, 2)
         else:
             out = torch.cat(last_hs, dim=1)
 
-        # A residual block
         out_proj = self.proj2(
             F.dropout(
                 F.relu(self.proj1(out)),
@@ -193,7 +190,7 @@ class TransformerEncoder(nn.Module):
             attn_mask (bool, optional): Whether to apply a mask to the attention or not. Defaults to False.
         """
         super().__init__()
-        self.dropout = embed_dropout  # Embedding dropout
+        self.dropout = embed_dropout 
         self.attn_dropout = attn_dropout
         self.embed_dim = embed_dim
         self.embed_scale = math.sqrt(embed_dim)
@@ -233,32 +230,26 @@ class TransformerEncoder(nn.Module):
                 - **encoder_padding_mask** (ByteTensor): the positions of
                   padding elements of shape `(batch, src_len)`
         """
-        # embed tokens and positions
         x = self.embed_scale * x_in
         if self.embed_positions is not None:
-            # Add positional embedding
             x += self.embed_positions(x_in.transpose(0, 1)[:, :, 0]).transpose(
                 0, 1
             )
         x = F.dropout(x, p=self.dropout, training=self.training)
 
         if x_in_k is not None and x_in_v is not None:
-            # embed tokens and positions
             x_k = self.embed_scale * x_in_k
             x_v = self.embed_scale * x_in_v
             if self.embed_positions is not None:
-                # Add positional embedding
                 x_k += self.embed_positions(
                     x_in_k.transpose(0, 1)[:, :, 0]
                 ).transpose(0, 1)
-                # Add positional embedding
                 x_v += self.embed_positions(
                     x_in_v.transpose(0, 1)[:, :, 0]
                 ).transpose(0, 1)
             x_k = F.dropout(x_k, p=self.dropout, training=self.training)
             x_v = F.dropout(x_v, p=self.dropout, training=self.training)
 
-        # encoder layers
         intermediates = [x]
         for layer in self.layers:
             if x_in_k is not None and x_in_v is not None:
@@ -320,7 +311,6 @@ class TransformerEncoderLayer(nn.Module):
         self.res_dropout = res_dropout
         self.normalize_before = True
 
-        # The "Add & Norm" part in the paper
         self.fc1 = Linear(self.embed_dim, 4 * self.embed_dim)
         self.fc2 = Linear(4 * self.embed_dim, self.embed_dim)
         self.layer_norms = nn.ModuleList(

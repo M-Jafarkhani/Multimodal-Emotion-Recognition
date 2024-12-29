@@ -161,12 +161,10 @@ def train(
         true = []
         with torch.no_grad():
             for i, inputs in enumerate(validdata):
-                # process input
                 src, trg0, trg1, labels, _ = _process_input_L2(
                     inputs, max_seq_len
                 )
 
-                #  We only need the source text as input! No need for target!
                 _, _, _, head_out = model(src)
                 pred.append(head_out)
                 true.append(labels)
@@ -217,10 +215,8 @@ def single_test(model, testdata, max_seq_len=20):
     true = []
     with torch.no_grad():
         for i, inputs in enumerate(testdata):
-            # process input
             src, _, _, labels, _ = _process_input_L2(inputs, max_seq_len)
 
-            #  We only need the source text as input! No need for target!
             _, _, _, head_out = model(src)
             pred.append(head_out)
             true.append(labels)

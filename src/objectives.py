@@ -1,5 +1,3 @@
-"""Implements various objectives for supervised learning objectives."""
-
 import torch
 
 

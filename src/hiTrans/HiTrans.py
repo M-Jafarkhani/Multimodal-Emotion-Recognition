@@ -143,16 +143,6 @@ class MultiHeadedAttention(nn.Module):
         dim_per_head = self.dim_per_head
         head_count = self.head_count
 
-        def shape(x):
-            """  projection """
-            return x.view(batch_size, -1, head_count, dim_per_head) \
-                .transpose(1, 2)
-
-        def unshape(x):
-            """  compute context """
-            return x.transpose(1, 2).contiguous() \
-                .view(batch_size, -1, head_count * dim_per_head)
-
         key = self.linear_k(key).view(batch_size, -1, head_count, dim_per_head).transpose(1, 2)
         value = self.linear_v(value).view(batch_size, -1, head_count, dim_per_head).transpose(1, 2)
         query = self.linear_q(query).view(batch_size, -1, head_count, dim_per_head).transpose(1, 2)
@@ -174,7 +164,6 @@ class MultiHeadedAttention(nn.Module):
 
 
 class PositionalEncoding(nn.Module):
-
     def __init__(self, dim, max_len=512):
         super(PositionalEncoding, self).__init__()
         pe = torch.zeros(max_len, dim)
@@ -185,6 +174,7 @@ class PositionalEncoding(nn.Module):
         pe[:, 1::2] = torch.cos(position.float() * div_term)
         pe = pe.unsqueeze(0)
         self.register_buffer('pe', pe)
+    
     def forward(self, x):
         L = x.size(1)
         pos_emb = self.pe[:, :L]
