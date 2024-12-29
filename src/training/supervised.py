@@ -1,12 +1,9 @@
-"""Implements supervised learning training procedures."""
-
 import torch
-from torch import nn
 import time
+from torch import nn
 from evaluation.performance import AUPRC, f1_score, accuracy, eval_affect
 from evaluation.complexity import all_in_one_train, all_in_one_test
 from utils import format_time
-import time
 
 softmax = nn.Softmax()
 

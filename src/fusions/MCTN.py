@@ -1,16 +1,9 @@
-"""Implements MCTN for Fusions."""
-
-from torch.autograd import Variable
 import random
 import math
+import torch
+from torch.autograd import Variable
 from torch.nn import functional as F
 from torch import nn
-import torch
-import sys
-import os
-
-sys.path.append(os.getcwd())
-sys.path.append(os.path.dirname(os.path.dirname(os.getcwd())))
 
 
 class Encoder(nn.Module):

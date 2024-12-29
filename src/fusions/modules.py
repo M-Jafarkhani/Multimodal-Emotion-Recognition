@@ -1,5 +1,3 @@
-"""Implements common fusion patterns."""
-
 import torch
 from torch import nn
 from torch.autograd import Variable
@@ -165,7 +163,6 @@ class MultiplicativeInteractions2Modal(nn.Module):
             self.b = nn.Parameter(torch.Tensor(output_dim[0], output_dim[1]))
             nn.init.xavier_normal(self.b)
 
-        # most general Hypernetworks as Multiplicative Interactions.
         elif output == "matrix":
             self.W = nn.Parameter(
                 torch.Tensor(input_dims[0], input_dims[1], output_dim)
@@ -177,7 +174,6 @@ class MultiplicativeInteractions2Modal(nn.Module):
             nn.init.xavier_normal(self.V)
             self.b = nn.Parameter(torch.Tensor(output_dim))
             nn.init.normal_(self.b)
-        # Diagonal Forms and Gating Mechanisms.
         elif output == "vector":
             self.W = nn.Parameter(torch.Tensor(input_dims[0], input_dims[1]))
             nn.init.xavier_normal(self.W)
@@ -189,7 +185,6 @@ class MultiplicativeInteractions2Modal(nn.Module):
             nn.init.normal_(self.V)
             self.b = nn.Parameter(torch.Tensor(self.input_dims[1]))
             nn.init.normal_(self.b)
-        # Scales and Biases.
         elif output == "scalar":
             self.W = nn.Parameter(torch.Tensor(input_dims[0]))
             nn.init.normal_(self.W)
@@ -235,23 +230,20 @@ class MultiplicativeInteractions2Modal(nn.Module):
         if self.output == "matrix3D":
             Wprime = (
                 torch.einsum("bn, nmpq -> bmpq", m1, self.W) + self.V
-            )  # bmpq
+            ) 
             bprime = torch.einsum("bn, npq -> bpq", m1, self.U) + self.b  # bpq
             output = torch.einsum("bm, bmpq -> bpq", m2, Wprime) + bprime  # bpq
 
-        # Hypernetworks as Multiplicative Interactions.
         elif self.output == "matrix":
             Wprime = torch.einsum("bn, nmd -> bmd", m1, self.W) + self.V  # bmd
             bprime = torch.matmul(m1, self.U) + self.b  # bmd
             output = torch.einsum("bm, bmd -> bd", m2, Wprime) + bprime  # bmd
 
-        # Diagonal Forms and Gating Mechanisms.
         elif self.output == "vector":
             Wprime = torch.matmul(m1, self.W) + self.V  # bm
             bprime = torch.matmul(m1, self.U) + self.b  # b
             output = Wprime * m2 + bprime  # bm
 
-        # Scales and Biases.
         elif self.output == "scalar":
             Wprime = torch.matmul(m1, self.W.unsqueeze(1)).squeeze(1) + self.V
             bprime = torch.matmul(m1, self.U.unsqueeze(1)).squeeze(1) + self.b
@@ -334,13 +326,11 @@ class LowRankTensorFusion(nn.Module):
         """
         super(LowRankTensorFusion, self).__init__()
 
-        # dimensions are specified in the order of audio, video and text
         self.input_dims = input_dims
         self.output_dim = output_dim
         self.rank = rank
         self.flatten = flatten
 
-        # low-rank factors
         self.factors = []
         for input_dim in input_dims:
             factor = nn.Parameter(
@@ -355,7 +345,7 @@ class LowRankTensorFusion(nn.Module):
         self.fusion_bias = nn.Parameter(torch.Tensor(1, self.output_dim)).to(
             torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         )
-        # init the fusion weights
+        
         nn.init.xavier_normal(self.fusion_weights)
         self.fusion_bias.data.fill_(0)
 
@@ -366,9 +356,6 @@ class LowRankTensorFusion(nn.Module):
         :param modalities: An iterable of modalities to combine.
         """
         batch_size = modalities[0].shape[0]
-        # next we perform low-rank multimodal fusion
-        # here is a more efficient implementation than the one the paper describes
-        # basically swapping the order of summation and elementwise product
         fused_tensor = 1
         for modality, factor in zip(modalities, self.factors):
             ones = Variable(
