@@ -10,9 +10,6 @@ from evaluation.metrics import eval_mosei_senti_return
 from fusions.MCTN import Seq2Seq, L2_MCTN
 from unimodals.modules import MLP
 
-sys.path.append(os.getcwd())
-sys.path.append(os.path.dirname(os.path.dirname(os.getcwd())))
-
 feature_dim = 300
 hidden_dim = 2
 
