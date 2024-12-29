@@ -64,7 +64,6 @@ class SentimentDataset(Dataset):
         task: str = None,
         max_pad=False,
         max_pad_num=50,
-        data_type="mosi",
         z_norm=False,
     ) -> None:
         """Instantiate SentimentDataset
@@ -76,7 +75,6 @@ class SentimentDataset(Dataset):
             task (str, optional): What task to load. Defaults to None.
             max_pad (bool, optional): Whether to pad data to max_pad_num or not. Defaults to False.
             max_pad_num (int, optional): Maximum padding number. Defaults to 50.
-            data_type (str, optional): What data to load. Defaults to 'mosi'.
             z_norm (bool, optional): Whether to normalize data along the z-axis. Defaults to False.
         """
         self.dataset = data
@@ -85,7 +83,6 @@ class SentimentDataset(Dataset):
         self.task = task
         self.max_pad = max_pad
         self.max_pad_num = max_pad_num
-        self.data_type = data_type
         self.z_norm = z_norm
         self.dataset["audio"][self.dataset["audio"] == -np.inf] = 0.0
 
@@ -169,7 +166,6 @@ def get_dataloader(
     num_workers: int = 2,
     flatten_time_series: bool = False,
     task=None,
-    data_type="mosi",
     z_norm=False,
 ) -> DataLoader:
     """Get dataloaders for affect data.
@@ -183,7 +179,6 @@ def get_dataloader(
         num_workers (int, optional): Number of workers. Defaults to 2.
         flatten_time_series (bool, optional): Whether to flatten time series data or not. Defaults to False.
         task (str, optional): Which task to load in. Defaults to None.
-        data_type (str, optional): What data to load in. Defaults to 'mosi'.
         z_norm (bool, optional): Whether to normalize data along the z dimension or not. Defaults to False.
 
     Returns:
@@ -206,7 +201,6 @@ def get_dataloader(
             task=task,
             max_pad=max_pad,
             max_pad_num=max_seq_len,
-            data_type=data_type,
             z_norm=z_norm,
         ),
         shuffle=train_shuffle,
@@ -221,7 +215,6 @@ def get_dataloader(
             task=task,
             max_pad=max_pad,
             max_pad_num=max_seq_len,
-            data_type=data_type,
             z_norm=z_norm,
         ),
         shuffle=False,
@@ -237,7 +230,6 @@ def get_dataloader(
             task=task,
             max_pad=max_pad,
             max_pad_num=max_seq_len,
-            data_type=data_type,
             z_norm=z_norm,
         ),
         shuffle=False,
