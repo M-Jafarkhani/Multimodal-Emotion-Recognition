@@ -50,7 +50,6 @@ def MFM_objective(
     ce_weight,
     modal_loss_funcs,
     recon_weights,
-    input_to_float=True,
     criterion=torch.nn.CrossEntropyLoss(),
 ):
     """Define objective for MFM.
@@ -74,24 +73,14 @@ def MFM_objective(
                 decoders[i](torch.cat([ints[i](reps[i]), fused], dim=1))
             )
         ce_loss = _criterioning(pred, truth, criterion)
-        if input_to_float:
-            inputs = [
-                i.float().to(
-                    torch.device(
-                        "cuda:0" if torch.cuda.is_available() else "cpu"
-                    )
+        inputs = [
+            i.float().to(
+                torch.device(
+                    "cuda:0" if torch.cuda.is_available() else "cpu"
                 )
-                for i in inps
-            ]
-        else:
-            inputs = [
-                i.to(
-                    torch.device(
-                        "cuda:0" if torch.cuda.is_available() else "cpu"
-                    )
-                )
-                for i in inps
-            ]
+            )
+            for i in inps
+        ]
         recon_loss = recon_loss_func(recons, inputs)
         return ce_loss * ce_weight + recon_loss
 

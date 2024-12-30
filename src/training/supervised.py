@@ -46,7 +46,6 @@ class MMDL(nn.Module):
                 outs.append(self.encoders[i](inputs[i]))
         self.reps = outs
         if self.has_padding:
-
             if isinstance(outs[0], torch.Tensor):
                 out = self.fuse(outs)
             else:
@@ -99,7 +98,6 @@ def train(
     save="best.pt",
     validtime=False,
     objective_args_dict=None,
-    input_to_float=True,
     clip_val=8,
     track_complexity=True,
 ):
@@ -122,7 +120,6 @@ def train(
     :param save: the name of the saved file for the model with current best validation performance
     :param validtime: whether to show valid time in seconds or not
     :param objective_args_dict: the argument dictionary to be passed into objective function. If not None, at every batch the dict's "reps", "fused", "inputs", "training" fields will be updated to the batch's encoder outputs, fusion module output, input tensors, and boolean of whether this is training or validation, respectively.
-    :param input_to_float: whether to convert input to float type or not
     :param clip_val: grad clipping limit
     :param track_complexity: whether to track training complexity or not
     """
@@ -149,12 +146,6 @@ def train(
         bestf1 = 0
         patience = 0
 
-        def _processinput(inp):
-            if input_to_float:
-                return inp.float()
-            else:
-                return inp
-
         for epoch in range(total_epochs):
             print(f"Epoch [{epoch + 1}/{total_epochs}]")
             totalloss = 0.0
@@ -166,12 +157,12 @@ def train(
                     with torch.backends.cudnn.flags(enabled=False):
                         model.train()
                         out = model(
-                            [[_processinput(i).to(device) for i in j[0]], j[1]]
+                            [[i.float().to(device) for i in j[0]], j[1]]
                         )
 
                 else:
                     model.train()
-                    out = model([_processinput(i).to(device) for i in j[:-1]])
+                    out = model([i.float().to(device) for i in j[:-1]])
                 if not (objective_args_dict is None):
                     objective_args_dict["reps"] = model.reps
                     objective_args_dict["fused"] = model.fuseout
@@ -201,11 +192,11 @@ def train(
                 for j in valid_dataloader:
                     if is_packed:
                         out = model(
-                            [[_processinput(i).to(device) for i in j[0]], j[1]]
+                            [[i.float().to(device) for i in j[0]], j[1]]
                         )
                     else:
                         out = model(
-                            [_processinput(i).to(device) for i in j[:-1]]
+                            [i.float().to(device) for i in j[:-1]]
                         )
 
                     if not (objective_args_dict is None):
@@ -295,8 +286,7 @@ def single_test(
     is_packed=False,
     criterion=nn.CrossEntropyLoss(),
     task="classification",
-    auprc=False,
-    input_to_float=True,
+    auprc=False
 ):
     """Run single test for model.
 
@@ -307,14 +297,7 @@ def single_test(
         criterion (_type_, optional): Loss function. Defaults to nn.CrossEntropyLoss().
         task (str, optional): Task to evaluate. Choose between "classification", "multiclass", "regression", "posneg-classification". Defaults to "classification".
         auprc (bool, optional): Whether to get AUPRC scores or not. Defaults to False.
-        input_to_float (bool, optional): Whether to convert inputs to float before processing. Defaults to True.
     """
-
-    def _processinput(inp):
-        if input_to_float:
-            return inp.float()
-        else:
-            return inp
 
     with torch.no_grad():
         totalloss = 0.0
@@ -327,7 +310,7 @@ def single_test(
                 out = model(
                     [
                         [
-                            _processinput(i).to(
+                            i.float().to(
                                 torch.device(
                                     "cuda:0"
                                     if torch.cuda.is_available()
@@ -342,9 +325,7 @@ def single_test(
             else:
                 out = model(
                     [
-                        _processinput(i)
-                        .float()
-                        .to(
+                        i.float().to(
                             torch.device(
                                 "cuda:0" if torch.cuda.is_available() else "cpu"
                             )
@@ -450,8 +431,7 @@ def test(
     is_packed=False,
     criterion=nn.CrossEntropyLoss(),
     task="classification",
-    auprc=False,
-    input_to_float=True
+    auprc=False
 ):
     """
     Handle getting test results for a simple supervised training loop.
@@ -468,8 +448,7 @@ def test(
             is_packed,
             criterion,
             task,
-            auprc,
-            input_to_float,
+            auprc
         )
 
     all_in_one_test(_testprocess, [model])
