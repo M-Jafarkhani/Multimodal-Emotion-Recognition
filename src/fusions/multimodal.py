@@ -420,12 +420,6 @@ def LayerNorm(embedding_dim):
     return m
 
 
-"""Implements Positional Encoding.
-
-Adapted from fairseq repo.
-"""
-
-
 def make_positions(tensor, padding_idx, left_pad):
     """Replace non-padding symbols with their position numbers.
 

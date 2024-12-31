@@ -202,30 +202,6 @@ class GRUWithLinear(torch.nn.Module):
         return out
 
 
-class GlobalPooling2D(nn.Module):
-    """Implements 2D Global Pooling."""
-
-    def __init__(self):
-        """Initializes GlobalPooling2D Module."""
-        super(GlobalPooling2D, self).__init__()
-
-    def forward(self, x):
-        """Apply 2D Global Pooling to Layer Input.
-
-        Args:
-            x (torch.Tensor): Layer Input
-
-        Returns:
-            torch.Tensor: Layer Output
-        """
-        # apply global average pooling
-        x = x.view(x.size(0), x.size(1), -1)
-        x = torch.mean(x, 2)
-        x = x.view(x.size(0), -1)
-
-        return x
-
-
 class Identity(nn.Module):
     """Identity Module."""
 

@@ -1,5 +1,3 @@
-"""Implements various evaluation metrics for accuracies and MOSI/MOSEI."""
-
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score
 
@@ -36,7 +34,6 @@ def eval_mosei_senti_return(results, truths, exclude_zero=False):
     test_preds_a7 = np.clip(test_preds, a_min=-3.0, a_max=3.0)
     test_truth_a7 = np.clip(test_truth, a_min=-3.0, a_max=3.0)
 
-    # Average L1 distance between preds and truths
     mae = np.mean(np.absolute(test_preds - test_truth))
     corr = np.corrcoef(test_preds, test_truth)[0][1]
     mult_a7 = multiclass_acc(test_preds_a7, test_truth_a7)
