@@ -1,4 +1,3 @@
-from memory_profiler import memory_usage
 import time
 from utils import format_time
 
@@ -23,11 +22,10 @@ def all_in_one(trainprocess, trainmodules):
 
 def all_in_one_train(trainprocess, trainmodules):
     starttime = time.time()
-    mem = max(memory_usage(proc=trainprocess))
+    trainprocess()
     endtime = time.time()
 
     print("Training Time: " + format_time(endtime - starttime))
-    print("Training Peak Mem: " + str(mem))
     print("Training Params: " + str(get_all_params(trainmodules)))
 
 
