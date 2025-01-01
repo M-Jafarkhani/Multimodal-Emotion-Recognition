@@ -70,16 +70,16 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 ## Accuracy (%) 
 | Architecture                             | CMU-MOSI | CMU-MOSEI |
 |------------------------------------------|----------|-----------|
-| Early Fusion (Transformer)               | 75.65    | 69.63     |
-| Late Fusion                              | 75.21    | 71.60     |
-| Multimodal Transformer                   | 75.21    | 70.40     |
-| Late Fusion (Transformer)                | 73.32    | 68.49     |
-| Multimodal Cyclic Translation Network    | 72.44    |   -       |
-| Tensor Fusion                            | 72.30    | 70.45     |
-| Low Rank Tensor Fusion                   | 72.01    | 70.44     |
-| Unimodal                                 | 71.28    | 70.01     |
-| Early Fusion                             | 66.90    | 49.01     |
-| Multimodal Factorization                 | 63.70    |   -       |
+| Early Fusion (Transformer)               | [75.65](https://github.com/M-Jafarkhani/Multimodal-Sentiment-Analysis/blob/7e6a495ada1553a4586157e5f7a85b5393da911b/src/notebooks/MOSI/Early_Fusion.ipynb)    | 69.63     |
+| Late Fusion                              | [75.21]()    | 71.60     |
+| Multimodal Transformer                   | [75.21]()    | 70.40     |
+| Late Fusion (Transformer)                | [73.32]()    | 68.49     |
+| Multimodal Cyclic Translation Network    | [72.44]()    |   -       |
+| Tensor Fusion                            | [72.30]()    | 70.45     |
+| Low Rank Tensor Fusion                   | [72.01]()    | 70.44     |
+| Unimodal                                 | [71.28]()    | 70.01     |
+| Early Fusion                             | [66.90]()    | 49.01     |
+| Multimodal Factorization                 | [63.70]()    |   -       |
 
 ## MELD
 | Architecture                             | F1 Score (%) |
