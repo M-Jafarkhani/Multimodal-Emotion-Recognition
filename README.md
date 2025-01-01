@@ -86,6 +86,9 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 |------------------------------------------|--------------|
 | HiTrans                   	 	       | [55.81](src/notebooks/MELD/HiTrans.ipynb)        |
 
+# Setup
+All experiments were carried out on [Google Colab](https://colab.research.google.com/), utilizing a T4 GPU with High RAM.
+
 # References
  - [Baseline Repository](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
  - [HiTrans](https://github.com/ljynlp/HiTrans)
