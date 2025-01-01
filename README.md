@@ -68,12 +68,13 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 # Experiments Result
 
 ## CMU-MOSI 
-| Architecture				 			   | Accuracy     |
+| Architecture				 			   | Accuracy (%) |
 |------------------------------------------|--------------|
 | Late Fusion 				 			   | %71.60       |
 | Tensor Fusion 				 		   | %70.45       |
 | Multimodal Transformer 	 			   | %70.40 	  |
 | Early Fusion (Transformer)  			   | %69.63 	  |
+| Late Fusion (Transformer)                | %68.49       |
 | Early Fusion 				 			   | %49.01 	  |
 
 ## CMU-MOSEI 
