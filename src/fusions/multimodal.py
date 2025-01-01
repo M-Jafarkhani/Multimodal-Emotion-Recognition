@@ -1,5 +1,3 @@
-"""Implements the MultimodalTransformer Model. See https://github.com/yaohungt/Multimodal-Transformer for more."""
-
 import math
 import torch
 import torch.nn.functional as F
@@ -7,15 +5,7 @@ from torch import nn
 
 
 class MULTModel(nn.Module):
-    """
-    Implements the MultimodalTransformer Model.
-
-    See https://github.com/yaohungt/Multimodal-Transformer for more.
-    """
-
     class DefaultHyperParams:
-        """Set default hyperparameters for the model."""
-
         num_heads = 3
         layers = 3
         attn_dropout = 0.1
@@ -30,7 +20,6 @@ class MULTModel(nn.Module):
         all_steps = False
 
     def __init__(self, n_modalities, n_features, hyp_params=DefaultHyperParams):
-        """Construct a MulT model."""
         super().__init__()
         self.n_modalities = n_modalities
         self.embed_dim = hyp_params.embed_dim
@@ -48,7 +37,6 @@ class MULTModel(nn.Module):
         combined_dim = self.embed_dim * n_modalities * n_modalities
         output_dim = hyp_params.output_dim
 
-        # 1. Temporal convolutional layers
         self.proj = [
             nn.Conv1d(
                 n_features[i],
@@ -61,7 +49,6 @@ class MULTModel(nn.Module):
         ]
         self.proj = nn.ModuleList(self.proj)
 
-        # 2. Crossmodal Attentions
         self.trans = [
             nn.ModuleList(
                 [self.get_network(i, j, mem=False) for j in range(n_modalities)]
@@ -70,14 +57,12 @@ class MULTModel(nn.Module):
         ]
         self.trans = nn.ModuleList(self.trans)
 
-        # 3. Self Attentions (Could be replaced by LSTMs, GRUs, etc.)
         self.trans_mems = [
             self.get_network(i, i, mem=True, layers=3)
             for i in range(n_modalities)
         ]
         self.trans_mems = nn.ModuleList(self.trans_mems)
 
-        # Projection layers
         self.proj1 = nn.Linear(combined_dim, combined_dim)
         self.proj2 = nn.Linear(combined_dim, combined_dim)
         self.out_layer = nn.Linear(combined_dim, output_dim)

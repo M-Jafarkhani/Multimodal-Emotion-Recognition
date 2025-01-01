@@ -1,5 +1,3 @@
-"""Implements training pipeline for unimodal comparison."""
-
 import torch
 from torch import nn
 from sklearn.metrics import accuracy_score, f1_score

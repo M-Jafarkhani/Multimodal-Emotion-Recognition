@@ -93,12 +93,6 @@ class TensorFusion(nn.Module):
 
 
 class LowRankTensorFusion(nn.Module):
-    """
-    Implementation of Low-Rank Tensor Fusion.
-
-    See https://github.com/Justin1904/Low-rank-Multimodal-Fusion for more information.
-    """
-
     def __init__(self, input_dims, output_dim, rank, flatten=True):
         """
         Initialize LowRankTensorFusion object.

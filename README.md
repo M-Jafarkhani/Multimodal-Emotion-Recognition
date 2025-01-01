@@ -85,3 +85,11 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 | Architecture                             | F1 Score (%) |
 |------------------------------------------|--------------|
 | HiTrans                   	 	       | 55.81        |
+
+# References
+ - [Baseline Repository](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
+ - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
+ - [HiTrans](https://github.com/ljynlp/HiTrans)
+ - [GRU](https://arxiv.org/pdf/1812.07809.pdf)
+ - [Tensor Fusion](https://github.com/Justin1904/TensorFusionNetworks/blob/master/model.py)
+ - [Low Rank Tensor Fusion](https://github.com/Justin1904/Low-rank-Multimodal-Fusion)

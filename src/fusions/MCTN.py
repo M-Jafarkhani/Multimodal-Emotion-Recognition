@@ -7,11 +7,6 @@ from torch import nn
 
 
 class Encoder(nn.Module):
-    """
-    Apply a gated GRU to encode the input vector.
-
-    Paper/Code Sourced From: https://arxiv.org/pdf/1812.07809.pdf.
-    """
 
     def __init__(self, input_size, hidden_size, n_layers=1, dropout=0.2):
         """
@@ -96,11 +91,6 @@ class Attention(nn.Module):
 
 
 class Decoder(nn.Module):
-    """
-    Apply a gated GRU to decode the input vector.
-
-    Paper/Code Sourced From: https://arxiv.org/pdf/1812.07809.pdf.
-    """
 
     def __init__(self, hidden_size, output_size, n_layers=1, dropout=0.2):
         """Initialize Decoder Mechanism for MCTN.
@@ -136,18 +126,15 @@ class Decoder(nn.Module):
             output: Output of this module.
 
         """
-        # Get the embedding of the current input word (last output word)
-        embedded = input.unsqueeze(0)  # (1,B,N)
+        embedded = input.unsqueeze(0) 
 
-        # Calculate attention weights and apply to encoder outputs
         attn_weights = self.attention(last_hidden[-1], encoder_outputs)
-        context = attn_weights.bmm(encoder_outputs.transpose(0, 1))  # (B,1,N)
-        context = context.transpose(0, 1)  # (1,B,N)
+        context = attn_weights.bmm(encoder_outputs.transpose(0, 1))
+        context = context.transpose(0, 1) 
 
-        # Combine embedded input word and attended context, run through RNN
         rnn_input = torch.cat([embedded, context], 2)
         output, hidden = self.gru(rnn_input, last_hidden)
-        output = output.squeeze(0)  # (1,B,N) -> (B,N)
+        output = output.squeeze(0) 
         context = context.squeeze(0)
         output = self.out(torch.cat([output, context], 1))
         output = F.log_softmax(output, dim=1)
