@@ -1,9 +1,9 @@
-# Multimodal Sentiment Analysis
-This repository explores a range of architectures for Multimodal Sentiment Analysis (MSA), emphasizing the integration of multiple modalities (text, audio, video) to improve sentiment analysis. Each architecture offers unique strengths and trade-offs concerning accuracy, efficiency, and resilience to challenges like misaligned or missing modalities. Transformer-based methods consistently demonstrate the highest effectiveness for MSA tasks.
+# Multimodal Emotion Recognition
+This repository explores a range of architectures for Multimodal Emotion Recognition (MER), emphasizing the integration of multiple modalities (text, audio, video) to improve sentiment analysis. Each architecture offers unique strengths and trade-offs concerning accuracy, efficiency, and resilience to challenges like misaligned or missing modalities. Transformer-based methods consistently demonstrate the highest effectiveness for MSA tasks.
 
 # Datasets
 ### [CMU-MOSI Dataset](http://multicomp.cs.cmu.edu/resources/cmu-mosi-dataset/)
-The **MOSI (Multimodal Opinion Sentiment and Intensity)** dataset is a widely used benchmark in multimodal sentiment analysis. It consists of short video clips where speakers express their opinions and emotions, combining three modalities: **text** (transcriptions of spoken words), **audio** (vocal tone and pitch), and **visual** (facial expressions). Each segment is annotated with sentiment intensity scores ranging from -3 (strongly negative) to +3 (strongly positive).
+The **MOSI (Multimodal Opinion Sentiment and Intensity)** dataset is a widely used benchmark in multimodal sentiment and emotion analysis. It consists of short video clips where speakers express their opinions and emotions, combining three modalities: **text** (transcriptions of spoken words), **audio** (vocal tone and pitch), and **visual** (facial expressions). Each segment is annotated with sentiment intensity scores ranging from -3 (strongly negative) to +3 (strongly positive).
 
 MOSI is commonly used for tasks like multimodal fusion, sentiment prediction, and emotion recognition, making it a crucial dataset for advancing research in human-computer interaction and affective computing.
 
