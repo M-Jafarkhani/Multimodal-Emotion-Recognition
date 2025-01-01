@@ -76,7 +76,7 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 | Late Fusion (Transformer)                | [73.32](src/notebooks/MOSI/Late_Fusion_Transformer.ipynb)    | [68.49](src/notebooks/MOSEI/Late_Fusion_Transformer.ipynb)     |
 | Multimodal Cyclic Translation Network    | [72.44](src/notebooks/MOSI/Multimodal_Cyclic_Translation_Network.ipynb)    | -     |
 | Tensor Fusion                            | [72.30](src/notebooks/MOSI/Tensor_Fusion.ipynb)    | [70.45](src/notebooks/MOSEI/Tensor_Fusion.ipynb)     |
-| Low Rank Tensor Fusion                   | [72.01](src/notebooks/MOSI/Low_Rank_Tensor_Fusion.ipynb)    | [70.44](src/notebooks/MOSEI/Low_Rank_Tensor_Fusion.ipynb)     |
+| Low Rank Tensor Fusion                   | [72.01](src/notebooks/MOSI/Low_Rank_Tensor_Fusion.ipynb)    | [70.95](src/notebooks/MOSEI/Low_Rank_Tensor_Fusion.ipynb)     |
 | Unimodal                                 | [71.28](src/notebooks/MOSI/Unimodal.ipynb)    | [70.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
 | Early Fusion                             | [66.90](src/notebooks/MOSI/Early_Fusion.ipynb)    | [49.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
 | Multimodal Factorization                 | [63.70](src/notebooks/MOSI/Multimodal_Factorization.ipynb)    | -     |
@@ -84,12 +84,12 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 ## MELD
 | Architecture                             | F1 Score (%) |
 |------------------------------------------|--------------|
-| HiTrans                   	 	       | 55.81        |
+| HiTrans                   	 	       | [55.81](src/notebooks/MELD/HiTrans.ipynb)        |
 
 # References
  - [Baseline Repository](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
- - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
  - [HiTrans](https://github.com/ljynlp/HiTrans)
+ - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
  - [GRU](https://arxiv.org/pdf/1812.07809.pdf)
  - [Tensor Fusion](https://github.com/Justin1904/TensorFusionNetworks/blob/master/model.py)
  - [Low Rank Tensor Fusion](https://github.com/Justin1904/Low-rank-Multimodal-Fusion)
