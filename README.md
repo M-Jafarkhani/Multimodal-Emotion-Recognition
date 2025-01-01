@@ -1,5 +1,5 @@
 # Multimodal Sentiment Analysis
-In this repository, we explore multiple architectures on multiple datasets to recognize sentiment and emotions from multimodal data, including text, image and audio. We examined different architectures on diffrenet datasets.
+This repository explores a range of architectures for Multimodal Sentiment Analysis (MSA), emphasizing the integration of multiple modalities (text, audio, video) to improve sentiment analysis. Each architecture offers unique strengths and trade-offs concerning accuracy, efficiency, and resilience to challenges like misaligned or missing modalities. Transformer-based methods consistently demonstrate the highest effectiveness for MSA tasks.
 
 # Datasets
 ### [CMU-MOSI Dataset](http://multicomp.cs.cmu.edu/resources/cmu-mosi-dataset/)
@@ -23,7 +23,7 @@ MELD provides data in three modalities:
 
 It is widely used for tasks involving **contextual emotion understanding**, as the conversations include both isolated utterances and contextual dialogue flow, making it a rich resource for emotion recognition in multimodal, conversational settings.
 
-## Architectures and Obeservations
+# Architectures and Obeservations
 -   **Early Fusion**:
     
     -   Combines features from all modalities right after feature extraction.
@@ -66,7 +66,6 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 	-   **Multi-Task Learning**: Trains jointly on emotion detection and speaker verification tasks with dynamically weighted loss to improve overall model performance
 	
 # Experiments Result
-
 
 ## Accuracy (%) 
 | Architecture                             | CMU-MOSI | CMU-MOSEI |
