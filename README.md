@@ -70,16 +70,16 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 ## Accuracy (%) 
 | Architecture                             | CMU-MOSI | CMU-MOSEI |
 |------------------------------------------|----------|-----------|
-| Early Fusion (Transformer)               | [75.65](src/notebooks/MOSI/Early_Fusion.ipynb)    | [69.63]()     |
-| Late Fusion                              | [75.21]()    | [71.60]()     |
-| Multimodal Transformer                   | [75.21]()    | [70.40]()     |
-| Late Fusion (Transformer)                | [73.32]()    | [68.49]()     |
-| Multimodal Cyclic Translation Network    | [72.44]()    | -     |
-| Tensor Fusion                            | [72.30]()    | [70.45]()     |
-| Low Rank Tensor Fusion                   | [72.01]()    | [70.44]()     |
-| Unimodal                                 | [71.28]()    | [70.01]()     |
-| Early Fusion                             | [66.90]()    | [49.01]()     |
-| Multimodal Factorization                 | [63.70]()    | -     |
+| Early Fusion (Transformer)               | [75.65](src/notebooks/MOSI/Early_Fusion_Transformer.ipynb)    | [69.63](src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb)     |
+| Late Fusion                              | [75.21](src/notebooks/MOSI/Late_Fusion.ipynb)    | [71.60](src/notebooks/MOSEI/Late_Fusion.ipynb)     |
+| Multimodal Transformer                   | [75.21](src/notebooks/MOSI/Multimodal_Transformer.ipynb)    | [70.40](src/notebooks/MOSEI/Multimodal_Transformer.ipynb)     |
+| Late Fusion (Transformer)                | [73.32](src/notebooks/MOSI/Late_Fusion_Transformer.ipynb)    | [68.49](src/notebooks/MOSEI/Late_Fusion_Transformer.ipynb)     |
+| Multimodal Cyclic Translation Network    | [72.44](src/notebooks/MOSI/Multimodal_Cyclic_Translation_Network.ipynb)    | -     |
+| Tensor Fusion                            | [72.30](src/notebooks/MOSI/Tensor_Fusion.ipynb)    | [70.45](src/notebooks/MOSEI/Tensor_Fusion.ipynb)     |
+| Low Rank Tensor Fusion                   | [72.01](src/notebooks/MOSI/Low_Rank_Tensor_Fusion.ipynb)    | [70.44](src/notebooks/MOSEI/Low_Rank_Tensor_Fusion.ipynb)     |
+| Unimodal                                 | [71.28](src/notebooks/MOSI/Unimodal.ipynb)    | [70.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
+| Early Fusion                             | [66.90](src/notebooks/MOSI/Early_Fusion.ipynb)    | [49.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
+| Multimodal Factorization                 | [63.70](src/notebooks/MOSI/Multimodal_Factorization.ipynb)    | -     |
 
 ## MELD
 | Architecture                             | F1 Score (%) |
