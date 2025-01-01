@@ -67,30 +67,20 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 	
 # Experiments Result
 
-## CMU-MOSI 
-| Architecture				 			   | Accuracy (%) |
-|------------------------------------------|--------------|
-| Late Fusion 				 			   | 71.60        |
-| Tensor Fusion 				 		   | 70.45        |
-| Multimodal Transformer 	 			   | 70.40 	      |
-| Unimodal                                 | 70.01        |
-| Early Fusion (Transformer)  			   | 69.63 	      |
-| Late Fusion (Transformer)                | 68.49        |
-| Early Fusion 				 			   | 49.01 	      |
 
-## CMU-MOSEI 
-| Architecture                             | Accuracy (%) |
-|------------------------------------------|--------------|
-| Early Fusion (Transformer)               | 75.65        |
-| Late Fusion                              | 75.21        |
-| Multimodal Transformer                   | 75.21        |
-| Late Fusion (Transformer)                | 73.32        |
-| Multimodal Cyclic Translation Network    | 72.44        |
-| Tensor Fusion                            | 72.30        |
-| Low Rank Tensor Fusion                   | 72.01        |
-| Unimodal                                 | 71.28        |
-| Early Fusion                             | 66.90        |
-| Multimodal Factorization                 | 63.70        |
+## Accuracy (%) 
+| Architecture                             | CMU-MOSI | CMU-MOSEI |
+|------------------------------------------|----------|-----------|
+| Early Fusion (Transformer)               | 75.65    | 69.63     |
+| Late Fusion                              | 75.21    | 71.60     |
+| Multimodal Transformer                   | 75.21    | 70.40     |
+| Late Fusion (Transformer)                | 73.32    | 68.49     |
+| Multimodal Cyclic Translation Network    | 72.44    |   -       |
+| Tensor Fusion                            | 72.30    | 70.45     |
+| Low Rank Tensor Fusion                   | 72.01    | 70.44     |
+| Unimodal                                 | 71.28    | 70.01     |
+| Early Fusion                             | 66.90    | 49.01     |
+| Multimodal Factorization                 | 63.70    |   -       |
 
 ## MELD
 | Architecture                             | F1 Score (%) |
