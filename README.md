@@ -70,7 +70,7 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 ## Accuracy (%) 
 | Architecture                             | CMU-MOSI | CMU-MOSEI |
 |------------------------------------------|----------|-----------|
-| Early Fusion (Transformer)               | [75.65](src/notebooks/MOSI/Early_Fusion_Transformer.ipynb)    | [69.63](src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb)     |
+| Early Fusion (Transformer)               | [75.65](src/notebooks/MOSI/Early_Fusion_Transformer.ipynb)    | [71.91](src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb)     |
 | Late Fusion                              | [75.21](src/notebooks/MOSI/Late_Fusion.ipynb)    | [71.60](src/notebooks/MOSEI/Late_Fusion.ipynb)     |
 | Multimodal Transformer                   | [75.21](src/notebooks/MOSI/Multimodal_Transformer.ipynb)    | [70.40](src/notebooks/MOSEI/Multimodal_Transformer.ipynb)     |
 | Late Fusion (Transformer)                | [73.32](src/notebooks/MOSI/Late_Fusion_Transformer.ipynb)    | [68.49](src/notebooks/MOSEI/Late_Fusion_Transformer.ipynb)     |
@@ -90,7 +90,8 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 All experiments were carried out on [Google Colab](https://colab.research.google.com/), utilizing a T4 GPU with High RAM.
 
 # References
- - [Baseline Repository](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
+ - [Baseline Repositories (1)](https://github.com/Klodivio355/MultiBench)
+ - [Baseline Repositories (2)](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
  - [HiTrans](https://github.com/ljynlp/HiTrans)
  - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
  - [GRU](https://arxiv.org/pdf/1812.07809.pdf)
