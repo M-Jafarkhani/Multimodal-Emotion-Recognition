@@ -90,8 +90,8 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 All experiments were carried out on [Google Colab](https://colab.research.google.com/), utilizing a T4 GPU with High RAM.
 
 # References
- - [Baseline Repositories (1)](https://github.com/Klodivio355/MultiBench)
- - [Baseline Repositories (2)](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
+ - [Codebase Repository (MultiBench)](https://github.com/Klodivio355/MultiBench)
+ - [Codebase Repository (Multimodal-Sentiment-Analysis)](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
  - [HiTrans](https://github.com/ljynlp/HiTrans)
  - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
  - [GRU](https://arxiv.org/pdf/1812.07809.pdf)
