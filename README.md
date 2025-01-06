@@ -54,7 +54,7 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
     
     -   Utilizes a crossmodal attention mechanism to dynamically fuse information across time steps.
     -   Handles misalignments between modalities efficiently.
-    -   Demonstrated state-of-the-art performance among the architectures tested.
+    -   Demonstrated good performance among the architectures tested.
  
  - **[HiTrans](https://aclanthology.org/2020.coling-main.370.pdf)**:
  
@@ -94,6 +94,7 @@ All experiments were carried out on [Google Colab](https://colab.research.google
  - [Codebase Repository (Multimodal-Sentiment-Analysis)](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
  - [HiTrans](https://github.com/ljynlp/HiTrans)
  - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
- - [GRU](https://arxiv.org/pdf/1812.07809.pdf)
+ - [Multimodal Cyclic Translations](https://arxiv.org/pdf/1812.07809.pdf)
  - [Tensor Fusion](https://github.com/Justin1904/TensorFusionNetworks/blob/master/model.py)
+ - [Multimodal Factorization](https://arxiv.org/pdf/1806.06176)
  - [Low Rank Tensor Fusion](https://github.com/Justin1904/Low-rank-Multimodal-Fusion)
