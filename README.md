@@ -21,7 +21,7 @@ MELD provides data in three modalities:
 -   **Audio**: Speech recordings.
 -   **Video**: Facial expressions and body gestures.
 
-It is widely used for tasks involving **contextual emotion understanding**, as the conversations include both isolated utterances and contextual dialogue flow, making it a rich resource for emotion recognition in multimodal, conversational settings.
+It is widely used for tasks involving **contextual emotion understanding**, as the conversations include both isolated utterances and contextual dialogue flow, making it a rich resource for emotion recognition in multimodal, conversational settings. Unlike CMU-MOSI and CMU-MOSEI datasets, which focus on single-sentence emotion analysis tasks from monologue-style videos, MELD emphasizes **dialogue-based emotion recognition**. This involves understanding **multi-turn interactions** and capturing **emotion shifts** throughout conversations. Such challenges make MELD particularly suitable for models designed to handle hierarchical and context-aware structures, like HiTrans model. Conversely, CMU-MOSI and CMU-MOSEI datasets are better suited for traditional multimodal fusion approaches as they do not require the contextual modeling needed for dialogue-based tasks.
 
 # Architectures and Obeservations
 -   **Early Fusion**:
