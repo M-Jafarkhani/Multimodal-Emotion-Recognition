@@ -59,18 +59,18 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 # Experiments Result
 
 ## Accuracy (%) 
-| Architecture                             | CMU-MOSI | CMU-MOSEI |
-|------------------------------------------|----------|-----------|
-| Early Fusion (Transformer)               | [75.65][Early Fusion (Transformer)]   | [71.91](src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb)     |
-| Late Fusion                              | [75.21](src/notebooks/MOSI/Late_Fusion.ipynb)    | [71.60](src/notebooks/MOSEI/Late_Fusion.ipynb)     |
-| Multimodal Transformer                   | [75.21](src/notebooks/MOSI/Multimodal_Transformer.ipynb)    | [70.40](src/notebooks/MOSEI/Multimodal_Transformer.ipynb)     |
-| Late Fusion (Transformer)                | [73.32](src/notebooks/MOSI/Late_Fusion_Transformer.ipynb)    | [68.49](src/notebooks/MOSEI/Late_Fusion_Transformer.ipynb)     |
-| Multimodal Cyclic Translation Network    | [72.44](src/notebooks/MOSI/Multimodal_Cyclic_Translation_Network.ipynb)    | [59.49](src/notebooks/MOSEI/Multimodal_Cyclic_Translation_Network.ipynb)  |
-| Tensor Fusion                            | [72.30](src/notebooks/MOSI/Tensor_Fusion.ipynb)    | [70.45](src/notebooks/MOSEI/Tensor_Fusion.ipynb)     |
-| Low Rank Tensor Fusion                   | [72.01](src/notebooks/MOSI/Low_Rank_Tensor_Fusion.ipynb)    | [70.95](src/notebooks/MOSEI/Low_Rank_Tensor_Fusion.ipynb)     |
-| Unimodal                                 | [71.28](src/notebooks/MOSI/Unimodal.ipynb)    | [70.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
-| Early Fusion                             | [66.90](src/notebooks/MOSI/Early_Fusion.ipynb)    | [49.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
-| Multimodal Factorization                 | [63.70](src/notebooks/MOSI/Multimodal_Factorization.ipynb)    | [56.88](src/notebooks/MOSEI/Multimodal_Factorization.ipynb)  |
+| Architecture                          | CMU-MOSI    | CMU-MOSEI   |
+|---------------------------------------|-------------|-------------|
+| Early Fusion (Transformer)            | [75.65][L01]| [71.91][L02]|
+| Late Fusion (GRU)                     | [75.21][L03]| [71.60][L04]|
+| Multimodal Transformer                | [75.21][L05]| [70.40][L06]|
+| Late Fusion (Transformer)             | [73.32][L07]| [68.49][L08]|
+| Multimodal Cyclic Translation Network | [72.44][L09]| [59.49][L10]|
+| Tensor Fusion                         | [72.30][L11]| [70.45][L12]|
+| Low Rank Tensor Fusion                | [72.01][L13]| [70.95][L14]|
+| Unimodal                              | [71.28][L15]| [70.01][L16]|
+| Early Fusion (GRU)                    | [66.90][L17]| [49.01][L18]|
+| Multimodal Factorization              | [63.70][L19]| [56.88][L20]|
 
 
 # Setup
@@ -78,8 +78,6 @@ All experiments were carried out on [Google Colab Pro](https://colab.research.go
 
 # References
  - [Codebase Repository (MultiBench)](https://github.com/Klodivio355/MultiBench)
- - [Codebase Repository (Multimodal-Sentiment-Analysis)](https://github.com/rugvedmhatre/Multimodal-Sentiment-Analysis)
- - [HiTrans](https://github.com/ljynlp/HiTrans)
  - [MultiModal Transformer](https://github.com/yaohungt/Multimodal-Transformer) 
  - [Multimodal Cyclic Translations](https://arxiv.org/pdf/1812.07809.pdf)
  - [Tensor Fusion](https://github.com/Justin1904/TensorFusionNetworks/blob/master/model.py)
@@ -87,4 +85,23 @@ All experiments were carried out on [Google Colab Pro](https://colab.research.go
  - [Low Rank Tensor Fusion](https://github.com/Justin1904/Low-rank-Multimodal-Fusion)
 
 
-[Early Fusion (Transformer)]: src/notebooks/MOSI/Early_Fusion_Transformer.ipynb
+[L01]: src/notebooks/MOSI/Early_Fusion_Transformer.ipynb
+[L02]: src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb
+[L03]: src/notebooks/MOSI/Late_Fusion.ipynb
+[L04]: src/notebooks/MOSEI/Late_Fusion.ipynb
+[L05]: src/notebooks/MOSI/Multimodal_Transformer.ipynb
+[L06]: src/notebooks/MOSEI/Multimodal_Transformer.ipynb
+[L07]: src/notebooks/MOSI/Late_Fusion_Transformer.ipynb
+[L08]: src/notebooks/MOSEI/Late_Fusion_Transformer.ipynb
+[L09]: src/notebooks/MOSI/Multimodal_Cyclic_Translation_Network.ipynb
+[L10]: src/notebooks/MOSEI/Multimodal_Cyclic_Translation_Network.ipynb
+[L11]: src/notebooks/MOSI/Tensor_Fusion.ipynb
+[L12]: src/notebooks/MOSEI/Tensor_Fusion.ipynb
+[L13]: src/notebooks/MOSI/Low_Rank_Tensor_Fusion.ipynb
+[L14]: src/notebooks/MOSEI/Low_Rank_Tensor_Fusion.ipynb
+[L15]: src/notebooks/MOSI/Unimodal.ipynb
+[L16]: src/notebooks/MOSEI/Early_Fusion.ipynb
+[L17]: src/notebooks/MOSI/Early_Fusion.ipynb
+[L18]: src/notebooks/MOSEI/Early_Fusion.ipynb
+[L19]: src/notebooks/MOSI/Multimodal_Factorization.ipynb
+[L20]: src/notebooks/MOSEI/Multimodal_Factorization.ipynb
