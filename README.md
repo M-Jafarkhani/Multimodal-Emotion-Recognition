@@ -61,6 +61,19 @@ MOSEI is multimodal, combining **text**, **audio**, and **visual** data, making 
 | Early Fusion (GRU)                    | [66.90][L17]| [49.01][L18]|
 | Multimodal Factorization              | [63.70][L19]| [56.88][L20]|
 
+## Inefernce Params
+| Architecture                          | Million Parameters |
+|---------------------------------------|--------------------|
+| Early Fusion (Transformer)            | [~8.1][L01]        |
+| Late Fusion (GRU)                     | [~2.5][L03]        |
+| Multimodal Transformer                | [~3.0][L05]        |
+| Late Fusion (Transformer)             | [~20][L07]         |
+| Multimodal Cyclic Translation Network | [~0.2][L09]        |
+| Tensor Fusion                         | [~5.4][L11]        |
+| Low Rank Tensor Fusion                | [~1.5][L13]        |
+| Unimodal                              | [~1.9][L15]        |
+| Early Fusion (GRU)                    | [~1.6][L17]        |
+| Multimodal Factorization              | [~1.4][L19]        |
 
 # Setup
 All experiments were carried out on [Google Colab Pro](https://colab.research.google.com/), utilizing a A100/T4 GPU with High RAM.
