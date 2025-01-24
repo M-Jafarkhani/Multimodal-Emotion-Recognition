@@ -10,7 +10,7 @@ MOSI is commonly used for tasks like multimodal fusion, sentiment prediction, an
 ### [CMU-MOSEI Dataset](http://multicomp.cs.cmu.edu/resources/cmu-mosei-dataset/)
 The **MOSEI (Multimodal Sentiment Analysis and Emotion Intensity)** dataset is an extension of MOSI, designed to be larger and more diverse. It contains over 23,000 video clips from more than 1,000 speakers, covering various topics and languages. Each clip provides annotations for **sentiment** (ranging from -3 to +3, like MOSI) and **emotion intensity** across six primary emotions: happiness, sadness, anger, fear, surprise, and disgust.
 
-MOSEI is multimodal, combining **text**, **audio**, and **visual** data, making it suitable for tasks like sentiment analysis, emotion recognition, and multimodal fusion. Its scale and diversity make it a key resource for advancing multimodal natural language processing and understanding real-world affective expressions.
+MOSEI is also multimodal, combining **text**, **audio**, and **visual** data, making it suitable for tasks like sentiment analysis, emotion recognition, and multimodal fusion. Its scale and diversity make it a key resource for advancing multimodal natural language processing and understanding real-world affective expressions.
 
 # Architectures and Obeservations
 -   **Early Fusion**:
@@ -25,20 +25,23 @@ MOSEI is multimodal, combining **text**, **audio**, and **visual** data, making 
 -   **Tensor Fusion**:
     
     -   Employs Tensor Fusion to capture intra- and inter-modal interactions.
-    -   Achieved significant performance improvement over Early and Late Fusion techniques.
+    -   Achieved relatively the same performance as Early and Late Fusion techniques.
 -   **Low-Rank Tensor Fusion**:
     
     -   A more efficient variant of Tensor Fusion that projects features into a low-rank tensor space.
-    -   Sacrificed some accuracy for computational efficiency.
--   **Multimodal Factorization Model (MFM)**:
+    -   Much more efficient than Tensor Fusion, with the same accuracy.
+-   **Multimodal Factorization Model**:
     
     -   Separates representations into shared multimodal factors and modality-specific generative factors.
     -   Incorporates modality-specific decoders to reconstruct inputs.
     -   Suffered from overfitting, leading to a discrepancy between training and test accuracies.
--   **Multimodal Cyclic Translation Network (MCTN)**:
+-   **Multimodal Cyclic Translation Network**:
     
     -   Uses cyclic translation between modalities to create robust joint representations.
     -   Captures shared and complementary information across modalities effectively.
+    -   The most parameter-efficient model
+    -   Acceptable accurarcy on MOSI but performed poorly on MOSEI
+
 -   **Multimodal Transformer (MulT)**:
     
     -   Utilizes a crossmodal attention mechanism to dynamically fuse information across time steps.
@@ -62,18 +65,18 @@ MOSEI is multimodal, combining **text**, **audio**, and **visual** data, making 
 | Multimodal Factorization              | [63.70][L19]| [56.88][L20]|
 
 ## Inefernce Params
-| Architecture                          | Parameters (Million) |
-|---------------------------------------|--------------------|
-| Early Fusion (Transformer)            | [~8.1][L01]        |
-| Late Fusion (GRU)                     | [~2.5][L03]        |
-| Multimodal Transformer                | [~3.0][L05]        |
-| Late Fusion (Transformer)             | [~20][L07]         |
-| Multimodal Cyclic Translation Network | [~0.2][L09]        |
-| Tensor Fusion                         | [~5.4][L11]        |
-| Low Rank Tensor Fusion                | [~1.5][L13]        |
-| Unimodal                              | [~1.9][L15]        |
-| Early Fusion (GRU)                    | [~1.6][L17]        |
-| Multimodal Factorization              | [~1.4][L19]        |
+| Architecture                          | Parameters (Million)|
+|---------------------------------------|---------------------|
+| Early Fusion (Transformer)            | [~8.1][L01]         |
+| Late Fusion (GRU)                     | [~2.5][L03]         |
+| Multimodal Transformer                | [~3.0][L05]         |
+| Late Fusion (Transformer)             | [~20 ][L07]         |
+| Multimodal Cyclic Translation Network | [~0.2][L09]         |
+| Tensor Fusion                         | [~5.4][L11]         |
+| Low Rank Tensor Fusion                | [~1.5][L13]         |
+| Unimodal                              | [~1.9][L15]         |
+| Early Fusion (GRU)                    | [~1.6][L17]         |
+| Multimodal Factorization              | [~1.4][L19]         |
 
 # Setup
 All experiments were carried out on [Google Colab Pro](https://colab.research.google.com/), utilizing a A100/T4 GPU with High RAM.
