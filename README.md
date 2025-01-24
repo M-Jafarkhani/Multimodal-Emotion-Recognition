@@ -62,7 +62,7 @@ MOSEI is multimodal, combining **text**, **audio**, and **visual** data, making 
 | Multimodal Factorization              | [63.70][L19]| [56.88][L20]|
 
 ## Inefernce Params
-| Architecture                          | Million Parameters |
+| Architecture                          | Parameters (Million) |
 |---------------------------------------|--------------------|
 | Early Fusion (Transformer)            | [~8.1][L01]        |
 | Late Fusion (GRU)                     | [~2.5][L03]        |

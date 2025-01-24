@@ -148,7 +148,6 @@ def train(
                         pred.append(torch.sigmoid(out).round())
                     true.append(j[-1])
                     if auprc:
-                        # pdb.set_trace()
                         sm = softmax(out)
                         pts += [
                             (sm[i][1].item(), j[-1][i].item())

@@ -106,7 +106,6 @@ class SentimentDataset(Dataset):
             audio = audio[audio.nonzero()[0][0] :].float()
             text = text[text.nonzero()[0][0] :].float()
 
-        # z-normalize data
         if self.z_norm:
             vision = torch.nan_to_num(
                 (vision - vision.mean(0, keepdims=True))

@@ -486,7 +486,6 @@ class SinusoidalPositionalEmbedding(nn.Module):
             num_embeddings, -1
         )
         if embedding_dim % 2 == 1:
-            # zero pad
             emb = torch.cat([emb, torch.zeros(num_embeddings, 1)], dim=1)
         if padding_idx is not None:
             emb[padding_idx, :] = 0

@@ -38,7 +38,6 @@ class Encoder(nn.Module):
         """
         outputs, hidden = self.gru(src, hidden)
 
-        # sum bidirectional outputs
         outputs = (
             outputs[:, :, : self.hidden_size]
             + outputs[:, :, self.hidden_size :]
@@ -76,7 +75,7 @@ class Attention(nn.Module):
         """
         timestep = encoder_outputs.size(0)
         h = hidden.repeat(timestep, 1, 1).transpose(0, 1)
-        encoder_outputs = encoder_outputs.transpose(0, 1)  # [B*T*H]
+        encoder_outputs = encoder_outputs.transpose(0, 1)
         attn_energies = self._score(h, encoder_outputs)
         return F.relu(attn_energies).unsqueeze(1)
 
@@ -84,10 +83,10 @@ class Attention(nn.Module):
         energy = F.softmax(
             self.attn(torch.cat([hidden, encoder_outputs], 2)), dim=1
         )
-        energy = energy.transpose(1, 2)  # [B*H*T]
-        v = self.v.repeat(encoder_outputs.size(0), 1).unsqueeze(1)  # [B*1*H]
-        energy = torch.bmm(v, energy)  # [B*1*T]
-        return energy.squeeze(1)  # [B*T]
+        energy = energy.transpose(1, 2)
+        v = self.v.repeat(encoder_outputs.size(0), 1).unsqueeze(1) 
+        energy = torch.bmm(v, energy)
+        return energy.squeeze(1) 
 
 
 class Decoder(nn.Module):
@@ -182,7 +181,7 @@ class Seq2Seq(nn.Module):
         if self.training:
             output = Variable(
                 torch.zeros_like(trg.data[0, :])
-            )  # solve the bug of input.size must be equal to input_size
+            )
         else:
             output = Variable(torch.zeros_like(src.data[0, :]))
 
@@ -231,7 +230,6 @@ class MCTN(nn.Module):
         Returns:
             torch.Tensor: Output after applying MCTN.
         """
-        # get the cyclic joint embedding!
         reout = None
 
         if self.training:
@@ -239,7 +237,6 @@ class MCTN(nn.Module):
 
             reout, joint_embbed = self.seq2seq(out, src)
         else:
-            # Set teacher_forcing_ratio to zero to get rid of the input of target during inference stage
             out, _ = self.seq2seq(src, trg, teacher_forcing_ratio=0.0)
             joint_embbed, _ = self.seq2seq.encoder(out)
         _, reg = self.regression(joint_embbed)
