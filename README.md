@@ -14,36 +14,34 @@ MOSEI is also multimodal, combining **text**, **audio**, and **visual** data, ma
 
 # Architectures and Obeservations
 -   **Early Fusion**:
-    
     -   Combines features from all modalities right after feature extraction.
     -   Utilizing Gated Recurrent Units (GRU) and Transformers for improved sequential data processing.
     -   Achieved moderate to good performance, with Transformers outperforming GRUs.
+
 -   **Late Fusion**:
-    
     -   Processes each modality independently until the decision stage, where outputs are combined.
     -   Similar architecture as Early Fusion but delayed integration led to slightly improved performance for some models.
+
 -   **Tensor Fusion**:
-    
     -   Employs Tensor Fusion to capture intra- and inter-modal interactions.
     -   Achieved relatively the same performance as Early and Late Fusion techniques.
+
 -   **Low-Rank Tensor Fusion**:
-    
     -   A more efficient variant of Tensor Fusion that projects features into a low-rank tensor space.
     -   Much more efficient than Tensor Fusion, with the same accuracy.
+
 -   **Multimodal Factorization Model**:
-    
     -   Separates representations into shared multimodal factors and modality-specific generative factors.
     -   Incorporates modality-specific decoders to reconstruct inputs.
     -   Suffered from overfitting, leading to a discrepancy between training and test accuracies.
+
 -   **Multimodal Cyclic Translation Network**:
-    
     -   Uses cyclic translation between modalities to create robust joint representations.
     -   Captures shared and complementary information across modalities effectively.
     -   The most parameter-efficient model
     -   Acceptable accurarcy on MOSI but performed poorly on MOSEI
 
 -   **Multimodal Transformer (MulT)**:
-    
     -   Utilizes a crossmodal attention mechanism to dynamically fuse information across time steps.
     -   Handles misalignments between modalities efficiently.
     -   Demonstrated good performance among the architectures tested.
