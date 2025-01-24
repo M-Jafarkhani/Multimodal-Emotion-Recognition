@@ -55,22 +55,13 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
     -   Utilizes a crossmodal attention mechanism to dynamically fuse information across time steps.
     -   Handles misalignments between modalities efficiently.
     -   Demonstrated good performance among the architectures tested.
- 
- - **[HiTrans](https://aclanthology.org/2020.coling-main.370.pdf)**:
- 
-	HiTrans is a hierarchical transformer-based model for Emotion Detection in Conversations. 
-	-   **Hierarchical Design**: Combines a low-level BERT transformer for local utterance representations and a high-level transformer for capturing global context across conversations.
-	-   **Global Context Encoding**: Integrates long-distance dependencies between utterances with positional embeddings in the high-level transformer.
-	-   **Emotion Detection Module**: Uses a Multi-Layer Perceptron (MLP) to classify emotions for each utterance based on contextualized representations.
-	-   **Speaker Sensitivity**: Employs a Pairwise Utterance Speaker Verification (PUSV) task with a biaffine classifier to determine speaker relationships and enhance emotion detection.
-	-   **Multi-Task Learning**: Trains jointly on emotion detection and speaker verification tasks with dynamically weighted loss to improve overall model performance
 	
 # Experiments Result
 
 ## Accuracy (%) 
 | Architecture                             | CMU-MOSI | CMU-MOSEI |
 |------------------------------------------|----------|-----------|
-| Early Fusion (Transformer)               | [75.65](src/notebooks/MOSI/Early_Fusion_Transformer.ipynb)    | [71.91](src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb)     |
+| Early Fusion (Transformer)               | [75.65][Early Fusion (Transformer)]   | [71.91](src/notebooks/MOSEI/Early_Fusion_Transformer.ipynb)     |
 | Late Fusion                              | [75.21](src/notebooks/MOSI/Late_Fusion.ipynb)    | [71.60](src/notebooks/MOSEI/Late_Fusion.ipynb)     |
 | Multimodal Transformer                   | [75.21](src/notebooks/MOSI/Multimodal_Transformer.ipynb)    | [70.40](src/notebooks/MOSEI/Multimodal_Transformer.ipynb)     |
 | Late Fusion (Transformer)                | [73.32](src/notebooks/MOSI/Late_Fusion_Transformer.ipynb)    | [68.49](src/notebooks/MOSEI/Late_Fusion_Transformer.ipynb)     |
@@ -81,13 +72,9 @@ It is widely used for tasks involving **contextual emotion understanding**, as t
 | Early Fusion                             | [66.90](src/notebooks/MOSI/Early_Fusion.ipynb)    | [49.01](src/notebooks/MOSEI/Early_Fusion.ipynb)     |
 | Multimodal Factorization                 | [63.70](src/notebooks/MOSI/Multimodal_Factorization.ipynb)    | [56.88](src/notebooks/MOSEI/Multimodal_Factorization.ipynb)  |
 
-## MELD
-| Architecture                             | F1 Score (%) |
-|------------------------------------------|--------------|
-| HiTrans                   	 	       | [55.81](src/notebooks/MELD/HiTrans.ipynb)        |
 
 # Setup
-All experiments were carried out on [Google Colab](https://colab.research.google.com/), utilizing a T4 GPU with High RAM.
+All experiments were carried out on [Google Colab Pro](https://colab.research.google.com/), utilizing a A100/T4 GPU with High RAM.
 
 # References
  - [Codebase Repository (MultiBench)](https://github.com/Klodivio355/MultiBench)
@@ -98,3 +85,6 @@ All experiments were carried out on [Google Colab](https://colab.research.google
  - [Tensor Fusion](https://github.com/Justin1904/TensorFusionNetworks/blob/master/model.py)
  - [Multimodal Factorization](https://arxiv.org/pdf/1806.06176)
  - [Low Rank Tensor Fusion](https://github.com/Justin1904/Low-rank-Multimodal-Fusion)
+
+
+[Early Fusion (Transformer)]: src/notebooks/MOSI/Early_Fusion_Transformer.ipynb
