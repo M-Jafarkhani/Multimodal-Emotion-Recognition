@@ -71,7 +71,7 @@ Early Fusion is conceptually simpler and leverages inter-modal relationships eff
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figs/Early and Late Fusion.png}
+    \includegraphics[width=1\linewidth]{Foundation model draft1//figs/Early and Late Fusion.png}
     \caption{Early (upper) and Late Fusion (lower) \cite{Wu2022}}
     \label{fig:early-late-fusion}
 \end{figure}
@@ -80,8 +80,8 @@ With the emergence of the Transformers, researchers naturally began applying the
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\linewidth]{figs/Mult-1.png}
-    \caption{Overall architecture for MulT on modalities $(L,V,A)$. The crossmodal transformers, which suggests latent crossmodal adaptations, are the core components of MulT for multimodal fusion. MulT \cite{tsai-etal-2019-multimodal}}
+    \includegraphics[width=1\linewidth]{Foundation model draft1//figs/Mult-1.png}
+    \caption{Overall architecture for MulT on modalities $(L,V,A)$. The crossmodal transformers, which suggests latent crossmodal adaptations, are the core components of MulT for multimodal fusion. \cite{tsai-etal-2019-multimodal}}
     \label{fig:mult-1}
 \end{figure}
 
@@ -89,7 +89,7 @@ Tensor Fusion \cite{zadeh-etal-2017-tensor} is an advanced fusion technique used
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\linewidth]{figs/tensor fusion.png}
+    \includegraphics[width=1\linewidth]{Foundation model draft1//figs/tensor fusion.png}
     \caption{Commonly used early fusion (multimodal concatenation). Right: Tensor fusion with three types of subtensors: unimodal, bimodal, and trimodal. \cite{zadeh-etal-2017-tensor}}
     \label{fig:tensor-fusion}
 \end{figure}
@@ -98,13 +98,13 @@ Joint Learning of Modalities is another popular fusion technique that focuses on
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\linewidth]{figs/MCTN.png}
-    \caption{Hierarchical MCTN for three modalities: the source modality $\mathbf{X}^S$ and the target modalities $\mathbf{X}^{T_1}$ and $\mathbf{X}^{T_2}$. The joint representation $\mathcal{E}_{S \rightleftarrows T_1}$ is obtained via a cyclic translation between $\mathbf{X}^S$ and $\mathbf{X}^{T_1}$, then further translated into $\mathbf{X}^{T_2}$. Next, the joint representation of all three modalities, $\mathcal{E}_{(S \rightleftarrows T_1) \rightarrow T_2}$, is used for sentiment prediction. The model is trained end-to-end with a coupled translation-prediction objective. At test time, only the source modality $\mathbf{X}^S$ is required for prediction.}
+    \includegraphics[width=1\linewidth]{Foundation model draft1//figs/MCTN.png}
+    \caption{Hierarchical MCTN for three modalities: the source modality $\mathbf{X}^S$ and the target modalities $\mathbf{X}^{T_1}$ and $\mathbf{X}^{T_2}$. The joint representation $\mathcal{E}_{S \rightleftarrows T_1}$ is obtained via a cyclic translation between $\mathbf{X}^S$ and $\mathbf{X}^{T_1}$, then further translated into $\mathbf{X}^{T_2}$. Next, the joint representation of all three modalities, $\mathcal{E}_{(S \rightleftarrows T_1) \rightarrow T_2}$, is used for sentiment prediction. The model is trained end-to-end with a coupled translation-prediction objective. At test time, only the source modality $\mathbf{X}^S$ is required for prediction. \cite{Pham2019MCTN} }
     \label{fig:MCTN}
 \end{figure}
 
 \begin{figure*}[h]
-    \includegraphics[width=1\linewidth]{figs/Factorized.png}
+    \includegraphics[width=1\linewidth]{Foundation model draft1//figs/Factorized.png}
 \caption{Illustration of the Multimodal Factorization Model (MFM) with three modalities. MFM factorizes multimodal representations into \textit{multimodal discriminative} factors $\mathbf{F}_y$ and \textit{modality-specific generative} factors $\mathbf{F}_{a\{1:M\}}$. (a) MFM Generative Network with latent variables $\{\mathbf{Z}_y, \mathbf{Z}_{a\{1:M\}}\}$, factors $\{\mathbf{F}_y, \mathbf{F}_{a\{1:M\}}\}$, generated multimodal data $\hat{\mathbf{X}}_{1:3}$ and labels $\hat{\mathbf{Y}}$. (b) MFM Inference Network. (c) MFM Neural Architecture. Best viewed zoomed in and in color. \cite{FactorizedMult}}
     \label{fig:factorized}
 \end{figure*}
@@ -183,7 +183,7 @@ Tensor Fusion performed better on CMU-MOSI, likely because CMU-MOSI is a smaller
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\linewidth]{figs/LRTF.png}
+    \includegraphics[width=1\linewidth]{Foundation model draft1//figs/LRTF.png}
     \caption{Overview of Low-rank Multimodal Fusion model structure: LMF first obtains the unimodal representation $z_a, z_v, z_l$ by passing the unimodal inputs $x_a, x_v, x_l$ into three sub-embedding networks $f_v, f_a, f_l$ respectively. LMF produces the multimodal output representation by performing low-rank multimodal fusion with modality-specific factors. The multimodal representation can be then used for prediction tasks. \cite{Liu2018EfficientLM} }
     
     \label{fig:LRTF}
